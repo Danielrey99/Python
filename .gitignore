@@ -1,0 +1,28 @@
+# Bytecode compilado de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Entornos virtuales (¡nunca subas esto!)
+venv/
+env/
+.venv/
+
+# Archivos de entorno (contienen contraseñas/keys)
+.env
+.env.local
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.sublime-workspace
+
+# Sistema operativo
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Logs y bases de datos
+*.log
+*.sqlite
