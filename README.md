@@ -5,9 +5,10 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
 ## 📂 Contenido
 
 - `fundamentos/` - Conceptos básicos de Python:
-    - `constantes.py` - Definición y uso de constantes.
-    - `listas.py` - Trabajo con listas y sus métodos.
-    - `variables.py` - Declaración, tipos y operaciones con variables.
+    - `01_variables/` - Declaración, tipos y operaciones con variables:
+        - `constantes.py` - Definición y uso de constantes.
+        - `listas.py` - Trabajo con listas y sus métodos.
+        - `variables.py` - Declaración, tipos y operaciones con variables.
 
 ## 📖 ¿Por qué este repositorio?
 
