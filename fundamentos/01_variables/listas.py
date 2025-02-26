@@ -57,3 +57,10 @@ print(f"Primeros dos elementos: {tupla_ejemplo[0:2]}")
 print(f"Último elemento: {tupla_ejemplo[-1]}")
 print(f"Primer elemento: {tupla_ejemplo[0]}")
 print(f"Longitud tupla: {len(tupla_ejemplo)}")
+
+# Listas 2D
+print("\n-- LISTAS 2D --\n")
+matriz = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print(matriz[0][0])   # 1 (fila 0, columna 0)
+print(matriz[1][2])   # 6 (fila 1, columna 2)
+print(matriz[-1][-1]) # 9 (última fila, última columna)
