@@ -6,9 +6,14 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
 
 - `fundamentos/` - Conceptos básicos de Python:
     - `01_variables/` - Declaración, tipos y operaciones con variables:
+        - `variables.py` - Declaración, tipos y operaciones con variables.
         - `constantes.py` - Definición y uso de constantes.
         - `listas.py` - Trabajo con listas y sus métodos.
-        - `variables.py` - Declaración, tipos y operaciones con variables.
+    - `02_bucles/` - Estructuras de control de bucles:
+        - `if.py` - Uso de la estructura condicional `if`.
+        - `for.py` - Uso del bucle `for`.
+        - `while.py` - Uso del bucle `while`.
+        - `anidados.py` - Ejemplos de bucles anidados.
 
 ## 📖 ¿Por qué este repositorio?
 
