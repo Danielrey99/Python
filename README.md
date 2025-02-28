@@ -14,6 +14,8 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `for.py` - Uso del bucle `for`.
         - `while.py` - Uso del bucle `while`.
         - `anidados.py` - Ejemplos de bucles anidados.
+- `ejercicios/` - Ejercicios prácticos para reforzar los conceptos aprendidos:
+    - `calculadora.py` - Implementación de una calculadora.
 
 ## 📖 ¿Por qué este repositorio?
 
