@@ -14,6 +14,8 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `for.py` - Uso del bucle `for`.
         - `while.py` - Uso del bucle `while`.
         - `anidados.py` - Ejemplos de bucles anidados.
+    - `03_funciones/` - Funciones en Python
+        - `funciones.py` - Definición y uso de funciones.
 - `ejercicios/` - Ejercicios prácticos para reforzar los conceptos aprendidos:
     - `calculadora.py` - Implementación de una calculadora.
 
@@ -38,8 +40,8 @@ Este repositorio me ayuda a documentar mi avance en Python y compartir lo que ap
    deactivate  # Desactiva el entorno virtual
 
    pip install <nombre_del_paquete>  # Instala un paquete específico
-   pip install pandas  # Ejemplo: instala pandas
-   pip install --upgrade pandas #Actualizar pandas
+   pip uninstall <nombre_del_paquete> # Desinstala un paquete específico
+   pip install --upgrade <nombre_del_paquete> #Actualizar un paquete específico
    pip install -r requirements.txt # Instala paquetes desde un archivo requirements.txt
 
    pip list  # Lista los paquetes instalados en el entorno virtual
