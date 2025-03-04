@@ -6,6 +6,7 @@ Este módulo muestra ejemplos básicos de bucles if en Python.
 age = 10
 text = "Hola Mundo"
 flag = True
+lista_strings = ["Hola", "Mundo", "Python"]
 
 #If
 print("\n-- IF --\n")
@@ -68,3 +69,9 @@ if age == 10 and (flag or age > 0):
 exists = "o" in text
 not_exist = "x" in text
 print(f"exists o: {exists} - No exists x: {not_exist}")
+
+# Comprobar un string en una lista
+if "Python" in lista_strings:
+    print(f"Posicion Python en lista: {lista_strings.index("Python")}")
+else:
+    print("No existe Python en la lista de string")

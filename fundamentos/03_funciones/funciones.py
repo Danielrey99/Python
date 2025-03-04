@@ -108,3 +108,30 @@ async def print_asincrona():
     print("Fin del programa")
 
 asyncio.run(print_asincrona())
+
+# Map
+print("\n-- MAP --\n")
+numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+def cuadrado(x):
+    return x ** 2
+
+resultados = map(cuadrado, numeros)
+print(list(resultados))
+
+# Map
+print("\n-- MAP LAMBDA --\n")
+resultados = map(lambda x: x ** 2, numeros)
+
+print(list(resultados))
+
+# Filter
+def es_par(x):
+    return x % 2 == 0
+
+resultados = filter(es_par, numeros)
+print(list(resultados))  # 2, 4, 6, 8, 10
+
+# Filter lambda
+resultados = filter(lambda x: x % 2 == 0, numeros)
+print(list(resultados))  # 2, 4, 6, 8, 10

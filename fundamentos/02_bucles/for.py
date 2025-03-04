@@ -6,6 +6,14 @@ Este módulo muestra ejemplos básicos de bucles for en Python.
 lista_numeros = [1, 2, 3, 4, 5]
 
 #For
+print("\n-- FOR --\n")
+for numero in lista_numeros:
+    print(numero)
+
+print("\n-- FOR ENUMERATE --\n")
+for numero in enumerate(lista_numeros): # devuelve tuplas (0, 10) (1, 20) ...
+    print(numero)
+
 print("\n-- FOR RANGE --\n")
 for x in range(10):
     print(x)
@@ -26,7 +34,6 @@ else:
     print("Número no encontrado")
 
 #Iterar lista
-print("\n-- ITERAR LISTA --\n")
 print("\n-- FOR LISTA --\n")
 for numero in lista_numeros:
     print(f"Numero: {numero}, Posición: {lista_numeros.index(numero)}")
