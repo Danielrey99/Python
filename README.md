@@ -9,11 +9,13 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `variables.py` - Declaración, tipos y operaciones con variables.
         - `constantes.py` - Definición y uso de constantes.
         - `listas.py` - Trabajo con listas y sus métodos.
+        - `diccionarios.py` - Trabajo con diccionarios y sus métodos.
     - `02_bucles/` - Estructuras de control de bucles:
         - `if.py` - Uso de la estructura condicional `if`.
         - `for.py` - Uso del bucle `for`.
         - `while.py` - Uso del bucle `while`.
         - `anidados.py` - Ejemplos de bucles anidados.
+        - `match_case.py` - Ejemplos de bucles match case.
     - `03_funciones/` - Funciones en Python
         - `funciones.py` - Definición y uso de funciones.
 - `ejercicios/` - Ejercicios prácticos para reforzar los conceptos aprendidos:
