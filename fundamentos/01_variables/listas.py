@@ -26,10 +26,10 @@ print(f"Elemento eliminado con pop(): {elemento_eliminado}")
 print(f"Lista de números después de pop(): {lista_numeros}")
 
 uno, dos, tres, cuatro, cinco = lista_numeros
-print("Lista desempaquetada: " + uno, dos, tres, cuatro, cinco)
+print(f"Lista desempaquetada: {uno} {dos} {tres} {cuatro} {cinco}")
 
 primero, *otros, ultimo = lista_numeros
-print("Lista desempaquetada solo primero y ultimio: " + primero, ultimo)
+print(f"Lista desempaquetada solo primero y ultimio: {primero} {ultimo}")
 
 lista_desordenada = [7, 6, 3, 8, 2, 1]
 print(f"Lista desordenada: {lista_desordenada}")
@@ -98,3 +98,74 @@ matriz = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 print(matriz[0][0])   # 1 (fila 0, columna 0)
 print(matriz[1][2])   # 6 (fila 1, columna 2)
 print(matriz[-1][-1]) # 9 (última fila, última columna)
+
+
+# Sets (colección desordenada de elementos únicos)
+print("\n-- SETS --\n")
+# Set con llaves
+mi_set = {1, 2, 3, 4, 5}
+print("Set con llaves:", mi_set)
+
+# Set con la función set()
+otro_set = set([4, 5, 6, 7])
+print("Set con set():", otro_set)
+
+# Un set no permite duplicados
+set_con_duplicados = {1, 2, 2, 3, 4, 4, 5}
+print("Set sin duplicados:", set_con_duplicados)
+
+# Agregar elementos
+mi_set.add(6)
+print("Set después de agregar 6:", mi_set)
+
+# Eliminar elementos
+mi_set.remove(3)
+print("Set después de eliminar 3:", mi_set)
+
+# Intentar eliminar un elemento que no existe genera un error
+# mi_set.remove(8)  # Descomentar para ver el error
+
+# Eliminar un elemento sin error si no existe
+mi_set.discard(8)
+print("Set después de discard(8):", mi_set)
+
+# Unión: elementos en ambos sets
+union = mi_set.union(otro_set)
+print("Unión:", union)
+
+# Intersección: elementos comunes en ambos sets
+interseccion = mi_set.intersection(otro_set)
+print("Intersección:", interseccion)
+
+# Diferencia: elementos en el primer set pero no en el segundo
+diferencia = mi_set.difference(otro_set)
+print("Diferencia:", diferencia)
+
+# Diferencia simétrica: elementos que están en un set u otro, pero no en ambos
+diferencia_simetrica = mi_set.symmetric_difference(otro_set)
+print("Diferencia simétrica:", diferencia_simetrica)
+
+# Verificar si un elemento está en un set
+print("¿Está 4 en mi_set?", 4 in mi_set)
+print("¿Está 8 en mi_set?", 8 in mi_set)
+
+# Iterar un set
+print("Iteración sobre mi_set:")
+for elemento in mi_set:
+    print(elemento)
+
+# Un frozenset es un set inmutable, lo que significa que no puedes modificarlo después de crearlo.
+frozenset_ejemplo = frozenset([1, 2, 3])
+print("Frozenset:", frozenset_ejemplo)
+
+# Intentar agregar o eliminar elementos de un frozenset genera un error
+# frozenset_ejemplo.add(4)  # Descomentar para ver el error
+
+# Conjuntos como subconjuntos y superconjuntos
+setA = {1, 2, 3, 4, 5}
+setB = {1, 2, 3}
+setC = {6, 7, 8}
+
+print(f"¿SetB es un subconjunto de setA? {setB.issubset(setA)}")
+print(f"¿SetA es un superconjunto de setB? {setA.issuperset(setB)}")
+print(f"¿setC y setA son conjuntos disjuntos? {setC.isdisjoint(setA)}")
