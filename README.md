@@ -18,6 +18,11 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `match_case.py` - Ejemplos de bucles match case.
     - `03_funciones/` - Funciones en Python
         - `funciones.py` - Definición y uso de funciones.
+    - `04_manejo_errores/` - Manejo de errores en Python:
+        - `try_except.py` - Ejemplos de manejo de errores con `try-except`.
+    - `05_clases/` - Programación Orientada a Objetos (POO) en Python:
+        - `clases.py` - Definición y uso de clases y objetos.
+
 - `ejercicios/` - Ejercicios prácticos para reforzar los conceptos aprendidos:
     - `calculadora.py` - Implementación de una calculadora.
 
