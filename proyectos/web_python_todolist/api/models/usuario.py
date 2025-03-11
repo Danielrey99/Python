@@ -9,3 +9,11 @@ class Usuario:
         self.contrasenha = contrasenha
         self.rol = rol
         self.fecha_registro = fecha_registro
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre_usuario": self.nombre_usuario,
+            "rol": self.rol,
+            "fecha_registro": self.fecha_registro.isoformat() if self.fecha_registro else None,
+        }

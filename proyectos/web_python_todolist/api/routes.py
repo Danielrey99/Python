@@ -8,7 +8,6 @@ from .services import (
     obtener_usuario_por_id,
     crear_lista,
     obtener_listas_por_usuario,
-    obtener_listas_asociadas,
 )
 
 class RequestHandler(BaseHTTPRequestHandler):
@@ -69,7 +68,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps(usuario.__dict__).encode('utf-8'))
+                self.wfile.write(json.dumps(usuario.to_dict()).encode('utf-8'))
             else:
                 self.send_response(404) # Solicitud incorrecta
                 self.send_header('Content-type', 'application/json')
@@ -82,7 +81,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps(usuario.__dict__).encode('utf-8'))
+                self.wfile.write(json.dumps(usuario.to_dict()).encode('utf-8'))
             else:
                 self.send_response(404) # Solicitud incorrecta
                 self.send_header('Content-type', 'application/json')
@@ -95,20 +94,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps([lista.__dict__ for lista in listas]).encode('utf-8'))
-            else:
-                self.send_response(404) # Solicitud incorrecta
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({'message': 'Listas no encontradas'}).encode('utf-8'))
-        elif self.path.startswith('/usuario_lista/'):
-            usuario_id = int(self.path.split('/')[-1])
-            listas = obtener_listas_asociadas(usuario_id)
-            if listas:
-                self.send_response(200) # OK
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps([lista.__dict__ for lista in listas]).encode('utf-8'))
+                self.wfile.write(json.dumps([lista.to_dict() for lista in listas]).encode('utf-8'))
             else:
                 self.send_response(404) # Solicitud incorrecta
                 self.send_header('Content-type', 'application/json')

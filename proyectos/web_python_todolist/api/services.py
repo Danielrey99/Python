@@ -105,25 +105,3 @@ def obtener_listas_por_usuario(usuario_id):
             if conn:
                 cur.close()
                 conn.close()
-
-def obtener_listas_asociadas(usuario_id):
-    """Obtiene las listas asociadas a un usuario desde la base de datos."""
-    conn = create_connection()
-    if conn:
-        try:
-            cur = conn.cursor()
-            cur.execute("""
-                SELECT listas.id, listas.nombre_lista, listas.descripcion, listas.fecha_creacion
-                FROM listas
-                JOIN usuario_lista ON listas.id = usuario_lista.lista_id
-                WHERE usuario_lista.usuario_id = %s
-            """, (usuario_id,))
-            listas = [Lista(*lista) for lista in cur.fetchall()]
-            return listas
-        except psycopg2.Error as e:
-            print(f"Error al obtener listas asociadas: {e}")
-            return None
-        finally:
-            if conn:
-                cur.close()
-                conn.close()

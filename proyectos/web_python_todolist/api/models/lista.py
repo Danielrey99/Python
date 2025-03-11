@@ -9,3 +9,11 @@ class Lista:
         self.nombre_lista = nombre_lista
         self.descripcion = descripcion
         self.fecha_creacion = fecha_creacion
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre_lista": self.nombre_lista,
+            "descripcion": self.descripcion,
+            "fecha_creacion": self.fecha_creacion.isoformat() if self.fecha_creacion else None,
+        }
