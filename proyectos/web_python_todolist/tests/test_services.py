@@ -3,15 +3,22 @@ Módulo de pruebas unitarias para los servicios de la API.
 """
 
 import unittest
+from api.database.db import create_connection
 from api.services import (
     crear_usuario,
     obtener_usuario_por_nombre,
-    obtener_usuario_por_id,
+    actualizar_usuario,
+    eliminar_usuario,
+    obtener_todos_usuarios,
+    cambiar_contrasenha,
     crear_lista,
     obtener_listas_por_usuario,
-    obtener_listas_asociadas,
+    obtener_lista_por_id,
+    actualizar_lista,
+    eliminar_lista,
+    compartir_lista,
+    obtener_listas_compartidas,
 )
-from api.database.db import create_connection
 
 class TestApiServices(unittest.TestCase):
     """Clase que contiene las pruebas unitarias para los servicios de la API."""
@@ -31,6 +38,7 @@ class TestApiServices(unittest.TestCase):
         self.cur.close()
         self.conn.close()
 
+# Usuarios
     def test_crear_usuario(self):
         """Prueba la creación de un nuevo usuario a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
@@ -47,13 +55,41 @@ class TestApiServices(unittest.TestCase):
         self.assertIsNotNone(usuario)
         self.assertEqual(usuario.nombre_usuario, "test_user")
 
-    def test_obtener_usuario_por_id(self):
-        """Prueba la obtención de un usuario por su ID a través del servicio."""
+    def test_actualizar_usuario(self):
+        """Prueba la actualización de un usuario a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
-        usuario = obtener_usuario_por_id(usuario_id)
+        actualizado = actualizar_usuario(usuario_id, "updated_user", "new_password", "admin")
+        self.assertTrue(actualizado)
+        usuario = obtener_usuario_por_nombre("updated_user")
         self.assertIsNotNone(usuario)
-        self.assertEqual(usuario.id, usuario_id)
+        self.assertEqual(usuario.rol, "admin")
 
+    def test_eliminar_usuario(self):
+        """Prueba la eliminación de un usuario a través del servicio."""
+        usuario_id = crear_usuario("test_user", "password123")
+        eliminado = eliminar_usuario(usuario_id)
+        self.assertTrue(eliminado)
+        usuario = obtener_usuario_por_nombre("test_user")
+        self.assertIsNone(usuario)
+
+    def test_obtener_todos_usuarios(self):
+        """Prueba la obtención de todos los usuarios a través del servicio."""
+        crear_usuario("user1", "pass1")
+        crear_usuario("user2", "pass2")
+        usuarios = obtener_todos_usuarios()
+        self.assertEqual(len(usuarios), 2)
+
+    def test_cambiar_contrasenha(self):
+        """Prueba el cambio de contraseña de un usuario a través del servicio."""
+        usuario_id = crear_usuario("test_user", "password123")
+        cambiado = cambiar_contrasenha(usuario_id, "password123", "new_password")
+        self.assertTrue(cambiado)
+        usuario = obtener_usuario_por_nombre("test_user")
+        self.assertEqual(usuario.contrasenha, "new_password")
+        cambiado_incorrecto = cambiar_contrasenha(usuario_id, "password123", "another_password")
+        self.assertFalse(cambiado_incorrecto)
+
+# Listas
     def test_crear_lista(self):
         """Prueba la creación de una nueva lista a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
@@ -72,13 +108,50 @@ class TestApiServices(unittest.TestCase):
         listas = obtener_listas_por_usuario(usuario_id)
         self.assertEqual(len(listas), 2)
 
-    def test_obtener_listas_asociadas(self):
-        """Prueba la obtención de listas asociadas a un usuario a través del servicio."""
+    def test_obtener_lista_por_id(self):
+        """Prueba la obtención de una lista por su ID a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
         lista_id = crear_lista("Lista de prueba", "Descripción de prueba", usuario_id)
-        listas = obtener_listas_asociadas(usuario_id)
-        self.assertEqual(len(listas), 1)
-        self.assertEqual(listas[0].id, lista_id)
+        lista = obtener_lista_por_id(lista_id)
+        self.assertIsNotNone(lista)
+        self.assertEqual(lista.nombre_lista, "Lista de prueba")
+
+    def test_actualizar_lista(self):
+        """Prueba la actualización de una lista a través del servicio."""
+        usuario_id = crear_usuario("test_user", "password123")
+        lista_id = crear_lista("Lista de prueba", "Descripción de prueba", usuario_id)
+        actualizado = actualizar_lista(lista_id, "Lista actualizada", "Nueva descripción")
+        self.assertTrue(actualizado)
+        lista = obtener_lista_por_id(lista_id)
+        self.assertEqual(lista.nombre_lista, "Lista actualizada")
+
+    def test_eliminar_lista(self):
+        """Prueba la eliminación de una lista a través del servicio."""
+        usuario_id = crear_usuario("test_user", "password123")
+        lista_id = crear_lista("Lista de prueba", "Descripción de prueba", usuario_id)
+        eliminado = eliminar_lista(lista_id)
+        self.assertTrue(eliminado)
+        lista = obtener_lista_por_id(lista_id)
+        self.assertIsNone(lista)
+
+    def test_compartir_lista(self):
+        """Prueba la compartición de una lista con otro usuario a través del servicio."""
+        usuario_id1 = crear_usuario("user1", "pass1")
+        usuario_id2 = crear_usuario("user2", "pass2")
+        lista_id = crear_lista("Lista compartida", "Descripción", usuario_id1)
+        compartido = compartir_lista(lista_id, usuario_id2)
+        self.assertTrue(compartido)
+        listas_compartidas = obtener_listas_compartidas(usuario_id2)
+        self.assertEqual(len(listas_compartidas), 1)
+
+    def test_obtener_listas_compartidas(self):
+        """Prueba la obtención de listas compartidas con un usuario a través del servicio."""
+        usuario_id1 = crear_usuario("user1", "pass1")
+        usuario_id2 = crear_usuario("user2", "pass2")
+        lista_id = crear_lista("Lista compartida", "Descripción", usuario_id1)
+        compartir_lista(lista_id, usuario_id2)
+        listas_compartidas = obtener_listas_compartidas(usuario_id2)
+        self.assertEqual(len(listas_compartidas), 1)
 
 if __name__ == '__main__':
     unittest.main()

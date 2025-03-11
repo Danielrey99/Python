@@ -11,6 +11,10 @@ class Lista:
         self.fecha_creacion = fecha_creacion
 
     def to_dict(self):
+        """
+        Convierte la instancia de Lista a un diccionario que se puede serializar fácilmente a JSON.
+        'fecha_creacion' formateada como cadena ISO 8601
+        """
         return {
             "id": self.id,
             "nombre_lista": self.nombre_lista,

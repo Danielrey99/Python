@@ -11,6 +11,10 @@ class Usuario:
         self.fecha_registro = fecha_registro
 
     def to_dict(self):
+        """
+        Convierte la instancia de Usuario a un diccionario que se puede serializar fácilmente a JSON.
+        'fecha_registro' formateada como cadena ISO 8601
+        """
         return {
             "id": self.id,
             "nombre_usuario": self.nombre_usuario,
