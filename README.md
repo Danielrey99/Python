@@ -33,42 +33,90 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
 - `README.md` - Documentación del proyecto.
 
 ## 📂 web_python_todolist
-- `web_python_todolist/` - Aplicación web de lista de tareas desarrollada con Python:
-    - `database/` - Configuración y conexión a la base de datos:
-        - `__init__.py` - Archivo para indicar que la carpeta es un módulo.
-        - `db.py` - Conexión y configuración de la base de datos.
-    - `models/` - Modelos de la base de datos:
-        - `__init__.py` - Archivo para indicar que la carpeta es un módulo.
-        - `lista.py` - Modelo para gestionar listas.
-        - `usuario.py` - Modelo para gestionar usuarios.
-        - `usuario_lista.py` - Modelo para gestionar la relación entre usuarios y listas.
-    - `routes/` - Módulo para manejar las rutas de la aplicación.
+- `web_python_todolist/` - Contiene el código fuente de la aplicación web, así como la API que la soporta:
+    - `api/` - Lógica de la API REST:
+        - `__init__.py`
+        - `main.py` - Punto de entrada para la API.
+        - `services.py` - Gestiona la interacción entre modelos y la base de datos.
+        - `routes.py` - Definición de las rutas de la API.
+        - `models/` - Modelos de la base de datos para la API:
+            - `__init__.py`
+            - `lista.py` - Modelo para gestionar listas en la API.
+            - `usuario.py` - Modelo para gestionar usuarios en la API.
+        - `database/` - Configuración y conexión a la base de datos:
+            - `__init__.py`
+            - `db.py` - Conexión y configuración de la base de datos.
+        - `utils/` - Funciones auxiliares y utilidades para la API.
+
+    - `web/` - Lógica de la aplicación web:
+        - `main.py` - Punto de entrada para la Web.
+        - `models/` - Modelos de la base de datos para la Web (representaciones de los datos de la API):
+            - `__init__.py`
+            - `lista.py` - Modelo para gestionar listas en la Web.
+            - `usuario.py` - Modelo para gestionar usuarios en la Web.
+        - `routes/` - Módulo para manejar las rutas de la web.
+        - `static/` - Archivos estáticos (CSS, JS, imágenes).
+        - `templates/` - Plantillas HTML para la aplicación.
+        - `utils/` - Funciones auxiliares y utilidades para la Web.
+
     - `sql_files/` - Scripts SQL para la base de datos:
         - `V1__create_tables.sql` - Script SQL para crear las tablas de la base de datos.
-    - `static/` - Archivos estáticos (CSS, JS, imágenes).
-    - `templates/` - Plantillas HTML para la aplicación.
-    - `tests/` - Pruebas unitarias:
+
+    - `tests/` - Pruebas unitarias y de integración para la API y la web.
         - `test_db.py` - Pruebas unitarias para la conexión a la base de datos.
-        - `test_models.py` - Pruebas unitarias para los modelos.
-    - `utils/` - Funciones auxiliares y utilidades.
-    - `.env` - Archivo de configuración para variables de entorno.
-    - `requirements.txt` - Dependencias del proyecto.
+        - `test_services.py` - Pruebas unitarias para los servicios de la API.
 
-## 📖 ¿Por qué este repositorio?
+    - `.env` - Archivo para almacenar variables de entorno sensibles.
+    - `requirements.txt` - Lista de dependencias del proyecto.
 
-Este repositorio me ayuda a documentar mi avance en Python y compartir lo que aprendo.
+## 🚀 Cómo usarlo (web_python_todolist)
 
-## 🚀 Cómo usarlo
-
-1. Clonar el repositorio:
-    ```bash
+1. Clonar el repositorio.
+    ```
     git clone [https://github.com/miusuario/mirepo-python.git](https://github.com/miusuario/mirepo-python.git)
     ```
 
-## Entornos virtuales (.venv)
+2. Navegar al directorio del proyecto.
+    ```
+    cd proyectos
+    cd web_python_todolist
+    ```
+
+3. Crear y activar un entorno virtual.
+    ```
+    python -m venv .venv
+    .venv\Scripts\activate
+    ```
+
+4. Instalar las dependencias del proyecto.
+    ```
+    pip install -r requirements.txt
+    ```
+
+5. Configurar la base de datos.
+    * Asegúrate de tener PostgreSQL instalado y configurado.
+    * Crea una base de datos en PostgreSQL para el proyecto usando los archivos en sql_files.
+    * Crea un archivo .env para guardar las variables de entorno con las credenciales de tu base de datos.
+    Ejemplo:
+    ```
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_NAME=todolist
+    DB_USER=tu_usuario
+    DB_PASSWORD=tu_contraseña
+    ```
+
+6. Iniciar la API.
+    * Ejecuta el servidor de la API
+        ```
+        python -m api.main
+        ```
+    * La API estará disponible en http://localhost:8000.
+
+### Entornos virtuales (.venv)
 
 1. Creación del entorno virtual
-    ```bash
+    ```
     python -m venv .venv  # Crea un entorno virtual llamado .venv
 
     .venv\Scripts\activate  # Activa el entorno virtual windows
@@ -87,8 +135,10 @@ Este repositorio me ayuda a documentar mi avance en Python y compartir lo que ap
     python.exe -m pip install --upgrade pip  # Actualiza pip
     ```
 
+### Test unitarios
+
 1. Ejecutar tests
-    ```bash
+    ```
     python -m unittest <nombre_del_archivo_test> # Ejecutar un test específico
     python -m unittest discover # Busca los archivos que comiencen con test_ en el directorio actual y ejecutará las pruebas que contengan
     ```

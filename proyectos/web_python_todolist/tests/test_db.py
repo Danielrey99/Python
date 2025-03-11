@@ -1,9 +1,9 @@
 """
-Módulo de pruebas unitarias para verificar la conexión a la base de datos PostgreSQL.
+Módulo de pruebas unitarias para verificar la conexión de la API a la base de datos PostgreSQL.
 """
 
 import unittest
-from database.db import create_connection
+from api.database.db import create_connection
 
 class TestDatabaseConnection(unittest.TestCase):
     """Clase que contiene las pruebas para la conexión a la base de datos."""
