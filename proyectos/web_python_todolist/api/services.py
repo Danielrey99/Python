@@ -82,13 +82,13 @@ def eliminar_usuario(usuario_id):
                 conn.close()
 
 def obtener_todos_usuarios():
-    """Obtiene todos los usuarios de la base de datos."""
+    """Obtiene todos los usuarios de la base de datos, excluyendo contraseñas."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("SELECT id, nombre_usuario, contrasenha, rol, fecha_registro FROM usuarios")
-            usuarios = [Usuario(*usuario) for usuario in cur.fetchall()]
+            cur.execute("SELECT id, nombre_usuario, rol, fecha_registro FROM usuarios")
+            usuarios = [Usuario(id=usuario[0], nombre_usuario=usuario[1], contrasenha=None, rol=usuario[2], fecha_registro=usuario[3]) for usuario in cur.fetchall()]
             return usuarios
         except psycopg2.Error as e:
             print(f"Error al obtener todos los usuarios: {e}")
@@ -144,18 +144,18 @@ def crear_lista(nombre_lista, descripcion, usuario_id):
                 conn.close()
 
 def obtener_listas_por_usuario(usuario_id):
-    """Obtiene todas las listas de un usuario desde la base de datos."""
+    """Obtiene todas las listas de un usuario desde la base de datos, sin descripciones."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
             cur.execute("""
-                SELECT listas.id, listas.nombre_lista, listas.descripcion, listas.fecha_creacion
+                SELECT listas.id, listas.nombre_lista, listas.fecha_creacion
                 FROM listas
                 JOIN usuario_lista ON listas.id = usuario_lista.lista_id
                 WHERE usuario_lista.usuario_id = %s
             """, (usuario_id,))
-            listas = [Lista(*lista) for lista in cur.fetchall()]
+            listas = [Lista(id=lista[0], nombre_lista=lista[1], descripcion=None, fecha_creacion=lista[2]) for lista in cur.fetchall()]
             return listas
         except psycopg2.Error as e:
             print(f"Error al obtener listas: {e}")
@@ -241,18 +241,18 @@ def compartir_lista(lista_id, usuario_id_compartir):
                 conn.close()
 
 def obtener_listas_compartidas(usuario_id):
-    """Obtiene todas las listas compartidas con un usuario desde la base de datos."""
+    """Obtiene todas las listas compartidas con un usuario desde la base de datos, sin descripciones."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
             cur.execute("""
-                SELECT listas.id, listas.nombre_lista, listas.descripcion, listas.fecha_creacion
+                SELECT listas.id, listas.nombre_lista, listas.fecha_creacion
                 FROM listas
                 JOIN usuario_lista ON listas.id = usuario_lista.lista_id
                 WHERE usuario_lista.usuario_id = %s
             """, (usuario_id,))
-            listas = [Lista(*lista) for lista in cur.fetchall()]
+            listas = [Lista(id=lista[0], nombre_lista=lista[1], descripcion=None, fecha_creacion=lista[2]) for lista in cur.fetchall()]
             return listas
         except psycopg2.Error as e:
             print(f"Error al obtener listas compartidas: {e}")
