@@ -4,18 +4,19 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from .services import (
     crear_usuario,
-    obtener_usuario_por_nombre,
-    actualizar_usuario,
     eliminar_usuario,
+    obtener_usuario_por_nombre,
     obtener_todos_usuarios,
+    cambiar_nombre_usuario,
     cambiar_contrasenha,
+    cambiar_rol_usuario,
     crear_lista,
+    eliminar_lista,
     obtener_listas_por_usuario,
     obtener_lista_por_id,
-    actualizar_lista,
-    eliminar_lista,
-    compartir_lista,
     obtener_listas_compartidas,
+    actualizar_lista,
+    compartir_lista
 )
 
 class RequestHandler(BaseHTTPRequestHandler):
@@ -127,10 +128,10 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Nombre de usuario duplicado'}).encode('utf-8'))
-        elif self.path.startswith('/listas/compartir/'):
+        elif self.path.startswith('/listas/compartir'):
             # Compartir una lista con un usuario
-            lista_id = int(self.path.split('/')[-2])
-            usuario_id_compartir = int(self.path.split('/')[-1])
+            lista_id = data['lista_id']
+            usuario_id_compartir = data['usuario_id_compartir']
             if compartir_lista(lista_id, usuario_id_compartir):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
@@ -170,19 +171,34 @@ class RequestHandler(BaseHTTPRequestHandler):
         put_data = self.rfile.read(content_length)
         data = json.loads(put_data.decode('utf-8'))
 
-        if self.path.startswith('/usuarios/actualizar/'):
-            # Actualizar un usuario
+        if self.path.startswith('/usuarios/cambiar_nombre/'):
+            # Cambiar el nombre de usuario
             usuario_id = int(self.path.split('/')[-1])
-            if actualizar_usuario(usuario_id, data['nombre_usuario'], data['contrasenha'], data['rol']):
-                self.send_response(200) # OK
+            nuevo_nombre = data['nuevo_nombre']
+            if cambiar_nombre_usuario(usuario_id, nuevo_nombre):
+                self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps({'message': 'Usuario actualizado'}).encode('utf-8'))
+                self.wfile.write(json.dumps({'message': 'Nombre de usuario actualizado'}).encode('utf-8'))
             else:
-                self.send_response(500) # Internal Server Error
+                self.send_response(500)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps({'message': 'Error al actualizar usuario'}).encode('utf-8'))
+                self.wfile.write(json.dumps({'message': 'Error al actualizar el nombre de usuario'}).encode('utf-8'))
+        elif self.path.startswith('/usuarios/cambiar_rol/'):
+            # Cambiar el rol de usuario
+            usuario_id = int(self.path.split('/')[-1])
+            nuevo_rol = data['nuevo_rol']
+            if cambiar_rol_usuario(usuario_id, nuevo_rol):
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'message': 'Rol de usuario actualizado'}).encode('utf-8'))
+            else:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'message': 'Error al actualizar el rol de usuario'}).encode('utf-8'))
         elif self.path.startswith('/usuarios/cambiar_contrasenha/'):
             # Cambiar la contraseña de un usuario
             usuario_id = int(self.path.split('/')[-1])
@@ -258,7 +274,3 @@ def run_api(port=8000):
     httpd = HTTPServer(server_address, RequestHandler)
     print(f'Iniciando servidor en el puerto {port}...')
     httpd.serve_forever()
-
-# El servidor solo se inicia cuando el script se ejecuta directamente
-if __name__ == '__main__':
-    run_api()
