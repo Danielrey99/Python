@@ -2,6 +2,9 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+import signal
+import sys
+import threading
 from .services import (
     crear_usuario,
     eliminar_usuario,
@@ -30,7 +33,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         Maneja las solicitudes GET a la API.
         Las respuestas se envían en formato JSON.
         """
-        if self.path == '/usuarios/todos':
+        if self.path == '/usuarios':
             # Obtener todos los usuarios
             usuarios = obtener_todos_usuarios()
             if usuarios:
@@ -43,20 +46,6 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al obtener usuarios'}).encode('utf-8'))
-        elif self.path.startswith('/usuarios/'):
-            # Obtener usuario por nombre
-            nombre_usuario = self.path.split('/')[-1]
-            usuario = obtener_usuario_por_nombre(nombre_usuario)
-            if usuario:
-                self.send_response(200) # OK
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps(usuario.to_dict()).encode('utf-8'))
-            else:
-                self.send_response(404) # Not Found
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({'message': 'Usuario no encontrado'}).encode('utf-8'))
         elif self.path.startswith('/listas/compartidas/'):
             # Obtener listas compartidas con un usuario
             usuario_id = int(self.path.split('/')[-1])
@@ -128,6 +117,21 @@ class RequestHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Nombre de usuario duplicado'}).encode('utf-8'))
+        elif self.path == '/login':
+            # Iniciar sesión
+            nombre_usuario = data.get('nombre_usuario')
+            contrasenha_ingresada = data.get('contrasenha')
+            usuario = obtener_usuario_por_nombre(nombre_usuario, contrasenha_ingresada)
+            if usuario:
+                self.send_response(200) # OK
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps(usuario.to_dict()).encode('utf-8'))
+            else:
+                self.send_response(401) # Unauthorized
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'message': 'Credenciales incorrectas'}).encode('utf-8'))
         elif self.path.startswith('/listas/compartir'):
             # Compartir una lista con un usuario
             lista_id = data['lista_id']
@@ -269,8 +273,30 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({'message': 'Ruta no encontrada'}).encode('utf-8'))
 
 def run_api(port=8000):
-    """Función para iniciar el servidor de la API."""
+    """Función para iniciar el servidor de la API con manejo de cierre."""
     server_address = ('', port)
     httpd = HTTPServer(server_address, RequestHandler)
     print(f'Iniciando servidor en el puerto {port}...')
-    httpd.serve_forever()
+
+    # Ejecutar el servidor en un hilo separado
+    server_thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    server_thread.start()
+
+    # Manejo de señales para cerrar correctamente
+    def shutdown_handler(signal_received, frame):
+        print("\nSeñal de cierre recibida. Apagando el servidor...")
+        httpd.shutdown()  # Detiene el bucle de `serve_forever()`
+        httpd.server_close()  # Libera el socket del servidor
+        print("Servidor apagado correctamente.")
+        sys.exit(0)  # Cerrar el proceso completamente
+
+    # Capturar señales de interrupción (Ctrl + C) y SIGTERM (kill)
+    signal.signal(signal.SIGINT, shutdown_handler)
+    signal.signal(signal.SIGTERM, shutdown_handler)
+
+    # Mantener el hilo principal vivo
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        shutdown_handler(None, None)

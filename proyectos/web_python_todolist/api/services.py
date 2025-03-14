@@ -1,18 +1,21 @@
 """Módulo para la lógica de negocio de la API."""
 
 import psycopg2
+import bcrypt
 from api.models.usuario import Usuario
 from api.models.lista import Lista
 from api.database.db import create_connection
 
 # Usuarios
 def crear_usuario(nombre_usuario, contrasenha):
-    """Crea un nuevo usuario en la base de datos."""
+    """Crea un nuevo usuario en la base de datos con contraseña encriptada."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("INSERT INTO usuarios (nombre_usuario, contrasenha, rol) VALUES (%s, %s, %s) RETURNING id", (nombre_usuario, contrasenha, 'usuario'))
+            # Encriptar la contraseña
+            contrasenha_encriptada = bcrypt.hashpw(contrasenha.encode('utf-8'), bcrypt.gensalt())
+            cur.execute("INSERT INTO usuarios (nombre_usuario, contrasenha, rol) VALUES (%s, %s, %s) RETURNING id", (nombre_usuario, contrasenha_encriptada, 'usuario'))
             usuario_id = cur.fetchone()[0]
             conn.commit()
             return usuario_id
@@ -43,18 +46,25 @@ def eliminar_usuario(usuario_id):
                 cur.close()
                 conn.close()
 
-def obtener_usuario_por_nombre(nombre_usuario):
-    """Obtiene un usuario por su nombre de usuario desde la base de datos."""
+def obtener_usuario_por_nombre(nombre_usuario, contrasenha_ingresada):
+    """Obtiene un usuario por su nombre desde la base de datos, verificando la contraseña."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
+            # Obtener la contraseña encriptada de la base de datos
             cur.execute("SELECT id, nombre_usuario, contrasenha, rol, fecha_registro FROM usuarios WHERE nombre_usuario = %s", (nombre_usuario,))
-            usuario = cur.fetchone()
-            if usuario:
-                return Usuario(*usuario)
+            usuario_db = cur.fetchone()
+            if usuario_db:
+                usuario_id, nombre_usuario_db, contrasenha_db, rol, fecha_registro = usuario_db
+                # Verificar la contraseña
+                if bcrypt.checkpw(contrasenha_ingresada.encode('utf-8'), contrasenha_db.tobytes()):
+                    # Contraseña correcta, obtener los datos del usuario sin la contraseña
+                    return Usuario(id=usuario_id, nombre_usuario=nombre_usuario_db, contrasenha=None, rol=rol, fecha_registro=fecha_registro)
+                else:
+                    return None # Contraseña incorrecta
             else:
-                return None
+                return None # Usuario no encontrado
         except psycopg2.Error as e:
             print(f"Error al obtener usuario: {e}")
             return None
@@ -104,13 +114,16 @@ def cambiar_contrasenha(usuario_id, contrasenha_actual, contrasenha_nueva):
     if conn:
         try:
             cur = conn.cursor()
-            # Verifica la contraseña actual
+            # Obtener la contraseña encriptada actual de la base de datos
             cur.execute("SELECT contrasenha FROM usuarios WHERE id = %s", (usuario_id,))
             contrasenha_db = cur.fetchone()[0]
-            if contrasenha_db != contrasenha_actual:
+            # Verificar la contraseña actual
+            if not bcrypt.checkpw(contrasenha_actual.encode('utf-8'), contrasenha_db):
                 return False  # Contraseña actual incorrecta
-            # Actualiza la contraseña
-            cur.execute("UPDATE usuarios SET contrasenha = %s WHERE id = %s", (contrasenha_nueva, usuario_id))
+            # Encriptar la nueva contraseña
+            contrasenha_nueva_encriptada = bcrypt.hashpw(contrasenha_nueva.encode('utf-8'), bcrypt.gensalt())
+            # Actualiza la contraseña en la base de datos
+            cur.execute("UPDATE usuarios SET contrasenha = %s WHERE id = %s", (contrasenha_nueva_encriptada, usuario_id))
             conn.commit()
             return True
         except psycopg2.Error as e:
