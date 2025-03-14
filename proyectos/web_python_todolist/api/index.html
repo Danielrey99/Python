@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es"> <head>
+    <meta charset="UTF-8">
+    <title>Documentación de la API ToDoList</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Documentación de la API ToDoList</h1>
+
+    <h2>Endpoints de Usuarios</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Método</th>
+                <th>Endpoint</th>
+                <th>Descripción</th>
+                <th>Parámetros (JSON)</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>POST</td>
+                <td>/usuarios</td>
+                <td>Crear un nuevo usuario</td>
+                <td><code>{"nombre_usuario": "string", "contrasenha": "string"}</code></td>
+                <td><code>{"id": int}</code> (201 Created) o <code>{"message": "Nombre de usuario duplicado"}</code> (400 Bad Request)</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/login</td>
+                <td>Iniciar sesión</td>
+                <td><code>{"nombre_usuario": "string", "contrasenha": "string"}</code></td>
+                <td><code>{...usuario...}</code> (200 OK) o <code>{"message": "Credenciales incorrectas"}</code> (401 Unauthorized)</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/usuarios</td>
+                <td>Obtener todos los usuarios</td>
+                <td>Ninguno</td>
+                <td><code>[{...usuario...}, ...]</code> (200 OK) o <code>{"message": "Error al obtener usuarios"}</code> (500 Internal Server Error)</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/usuarios/cambiar_nombre/{usuario_id}</td>
+                <td>Cambiar el nombre de usuario</td>
+                <td><code>{"nuevo_nombre": "string"}</code></td>
+                <td><code>{"message": "Nombre de usuario actualizado"}</code> (200 OK) o <code>{"message": "Error al actualizar el nombre de usuario"}</code> (500 Internal Server Error)</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/usuarios/cambiar_contrasenha/{usuario_id}</td>
+                <td>Cambiar la contraseña de un usuario</td>
+                <td><code>{"contrasenha_actual": "string", "contrasenha_nueva": "string"}</code></td>
+                <td><code>{"message": "Contraseña actualizada"}</code> (200 OK) o <code>{"message": "Contraseña actual incorrecta"}</code> (401 Unauthorized)</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/usuarios/cambiar_rol/{usuario_id}</td>
+                <td>Cambiar el rol de un usuario</td>
+                <td><code>{"nuevo_rol": "string"}</code></td>
+                <td><code>{"message": "Rol de usuario actualizado"}</code> (200 OK) o <code>{"message": "Error al actualizar el rol de usuario"}</code> (500 Internal Server Error)</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>/usuarios/eliminar/{usuario_id}</td>
+                <td>Eliminar un usuario</td>
+                <td>Ninguno</td>
+                <td><code>{"message": "Usuario eliminado"}</code> (200 OK) o <code>{"message": "Error al eliminar usuario"}</code> (500 Internal Server Error)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Endpoints de Listas</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Método</th>
+                <th>Endpoint</th>
+                <th>Descripción</th>
+                <th>Parámetros (JSON)</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>POST</td>
+                <td>/listas</td>
+                <td>Crear una nueva lista</td>
+                <td><code>{"nombre_lista": "string", "descripcion": "string", "usuario_id": int}</code></td>
+                <td><code>{"id": int}</code> (201 Created) o <code>{"message": "Error al crear la lista"}</code> (500 Internal Server Error)</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/listas/{usuario_id}</td>
+                <td>Obtener listas de un usuario</td>
+                <td>Ninguno</td>
+                <td><code>[{...lista...}, ...]</code> (200 OK) o <code>{"message": "Listas no encontradas"}</code> (404 Not Found)</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/listas/id/{lista_id}</td>
+                <td>Obtener lista por ID</td>
+                <td>Ninguno</td>
+                <td><code>{...lista...}</code> (200 OK) o <code>{"message": "Lista no encontrada"}</code> (404 Not Found)</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/listas/compartidas/{usuario_id}</td>
+                <td>Obtener listas compartidas con un usuario</td>
+                <td>Ninguno</td>
+                <td><code>[{...lista...}, ...]</code> (200 OK) o <code>{"message": "Listas compartidas no encontradas"}</code> (404 Not Found)</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/listas/actualizar/{lista_id}</td>
+                <td>Actualizar una lista</td>
+                <td><code>{"nombre_lista": "string", "descripcion": "string"}</code></td>
+                <td><code>{"message": "Lista actualizada"}</code> (200 OK) o <code>{"message": "Error al actualizar lista"}</code> (500 Internal Server Error)</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/listas/compartir</td>
+                <td>Compartir una lista con un usuario</td>
+                <td><code>{"lista_id": int, "usuario_id_compartir": int}</code></td>
+                <td><code>{"message": "Lista compartida"}</code> (200 OK) o <code>{"message": "Error al compartir la lista"}</code> (500 Internal Server Error)</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>/listas/eliminar/{lista_id}</td>
+                <td>Eliminar una lista</td>
+                <td>Ninguno</td>
+                <td><code>{"message": "Lista eliminada"}</code> (200 OK) o <code>{"message": "Error al eliminar lista"}</code> (500 Internal Server Error)</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

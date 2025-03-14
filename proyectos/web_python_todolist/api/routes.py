@@ -1,6 +1,7 @@
 """Módulo para definir las rutas de la API."""
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import os
 import json
 import signal
 import sys
@@ -33,7 +34,15 @@ class RequestHandler(BaseHTTPRequestHandler):
         Maneja las solicitudes GET a la API.
         Las respuestas se envían en formato JSON.
         """
-        if self.path == '/usuarios':
+        if self.path == '/':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            ruta_base = os.path.dirname(__file__)  # Obtiene la ruta de 'routes.py'
+            ruta_html = os.path.join(ruta_base, 'index.html')
+            with open(ruta_html, 'rb') as f:
+                self.wfile.write(f.read())
+        elif self.path == '/usuarios':
             # Obtener todos los usuarios
             usuarios = obtener_todos_usuarios()
             if usuarios:
