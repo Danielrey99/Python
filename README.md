@@ -46,7 +46,6 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `database/` - Configuración y conexión a la base de datos:
             - `__init__.py`
             - `db.py` - Conexión y configuración de la base de datos.
-        - `utils/` - Funciones auxiliares y utilidades para la API.
 
     - `web/` - Lógica de la aplicación web:
         - `main.py` - Punto de entrada para la Web.
@@ -67,6 +66,7 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `test_services.py` - Pruebas unitarias para los servicios de la API.
 
     - `.env` - Archivo para almacenar variables de entorno sensibles.
+    - `populate_db.py` - Archivo para intoducir datos básicos en la base de datos.
     - `requirements.txt` - Lista de dependencias del proyecto.
 
 ## 🚀 Cómo usarlo (web_python_todolist)
@@ -105,6 +105,7 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
     DB_USER=tu_usuario
     DB_PASSWORD=tu_contraseña
     ```
+    * Ejecutar populate_db para intoducir datos básicos en la base de datos.
 
 6. Iniciar la API.
     * Ejecuta el servidor de la API

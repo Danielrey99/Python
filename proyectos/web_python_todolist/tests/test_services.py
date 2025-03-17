@@ -7,7 +7,6 @@ from api.database.db import create_connection
 from api.services import (
     crear_usuario,
     obtener_usuario_por_nombre,
-    actualizar_usuario,
     eliminar_usuario,
     obtener_todos_usuarios,
     cambiar_contrasenha,
@@ -18,6 +17,8 @@ from api.services import (
     eliminar_lista,
     compartir_lista,
     obtener_listas_compartidas,
+    cambiar_nombre_usuario,
+    cambiar_rol_usuario,
 )
 
 class TestApiServices(unittest.TestCase):
@@ -51,25 +52,20 @@ class TestApiServices(unittest.TestCase):
     def test_obtener_usuario_por_nombre(self):
         """Prueba la obtención de un usuario por su nombre a través del servicio."""
         crear_usuario("test_user", "password123")
-        usuario = obtener_usuario_por_nombre("test_user")
+        usuario = obtener_usuario_por_nombre("test_user", "password123")
         self.assertIsNotNone(usuario)
         self.assertEqual(usuario.nombre_usuario, "test_user")
-
-    def test_actualizar_usuario(self):
-        """Prueba la actualización de un usuario a través del servicio."""
-        usuario_id = crear_usuario("test_user", "password123")
-        actualizado = actualizar_usuario(usuario_id, "updated_user", "new_password", "admin")
-        self.assertTrue(actualizado)
-        usuario = obtener_usuario_por_nombre("updated_user")
-        self.assertIsNotNone(usuario)
-        self.assertEqual(usuario.rol, "admin")
+        usuario_incorrecto = obtener_usuario_por_nombre("test_user", "wrong_password")
+        self.assertIsNone(usuario_incorrecto)
+        usuario_no_encontrado = obtener_usuario_por_nombre("non_existent_user", "password")
+        self.assertIsNone(usuario_no_encontrado)
 
     def test_eliminar_usuario(self):
         """Prueba la eliminación de un usuario a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
         eliminado = eliminar_usuario(usuario_id)
         self.assertTrue(eliminado)
-        usuario = obtener_usuario_por_nombre("test_user")
+        usuario = obtener_usuario_por_nombre("test_user", "password123")
         self.assertIsNone(usuario)
 
     def test_obtener_todos_usuarios(self):
@@ -84,10 +80,29 @@ class TestApiServices(unittest.TestCase):
         usuario_id = crear_usuario("test_user", "password123")
         cambiado = cambiar_contrasenha(usuario_id, "password123", "new_password")
         self.assertTrue(cambiado)
-        usuario = obtener_usuario_por_nombre("test_user")
+        usuario = obtener_usuario_por_nombre("test_user", "new_password")
         self.assertEqual(usuario.contrasenha, "new_password")
         cambiado_incorrecto = cambiar_contrasenha(usuario_id, "password123", "another_password")
         self.assertFalse(cambiado_incorrecto)
+
+    def test_cambiar_nombre_usuario(self):
+        """Prueba el cambio de nombre de usuario de un usuario."""
+        usuario_id = crear_usuario("test_user", "password123")
+        cambiado = cambiar_nombre_usuario(usuario_id, "new_user_name")
+        self.assertTrue(cambiado)
+        usuario = obtener_usuario_por_nombre("new_user_name", "password123")
+        self.assertIsNotNone(usuario)
+        usuario_no_encontrado = obtener_usuario_por_nombre("test_user", "password123")
+        self.assertIsNone(usuario_no_encontrado)
+
+    def test_cambiar_rol_usuario(self):
+        """Prueba el cambio de rol de un usuario."""
+        usuario_id = crear_usuario("test_user", "password123")
+        cambiado = cambiar_rol_usuario(usuario_id, "admin")
+        self.assertTrue(cambiado)
+        self.cur.execute("SELECT rol FROM usuarios WHERE id = %s", (usuario_id,))
+        rol = self.cur.fetchone()[0]
+        self.assertEqual(rol, "admin")
 
 # Listas
     def test_crear_lista(self):
