@@ -36,6 +36,7 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
 - `web_python_todolist/` - Contiene el código fuente de la aplicación web, así como la API que la soporta:
     - `api/` - Lógica de la API REST:
         - `__init__.py`
+        - `index.html` - Vista de la api con documentación básica.
         - `main.py` - Punto de entrada para la API.
         - `services.py` - Gestiona la interacción entre modelos y la base de datos.
         - `routes.py` - Definición de las rutas de la API.
@@ -47,16 +48,21 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
             - `__init__.py`
             - `db.py` - Conexión y configuración de la base de datos.
 
-    - `web/` - Lógica de la aplicación web:
-        - `main.py` - Punto de entrada para la Web.
-        - `models/` - Modelos de la base de datos para la Web (representaciones de los datos de la API):
-            - `__init__.py`
-            - `lista.py` - Modelo para gestionar listas en la Web.
-            - `usuario.py` - Modelo para gestionar usuarios en la Web.
-        - `routes/` - Módulo para manejar las rutas de la web.
-        - `static/` - Archivos estáticos (CSS, JS, imágenes).
-        - `templates/` - Plantillas HTML para la aplicación.
-        - `utils/` - Funciones auxiliares y utilidades para la Web.
+    - `web/` - Interfaz de usuario creada con React y Vite:
+        - `node_modules/` - Dependencias de Node.js.
+        - `public/` - Archivos públicos (HTML, imágenes, etc.).
+        - `src/` - Código fuente de la aplicación React.
+            - `assets/` - Recursos estáticos (imágenes, SVG, etc.).
+            - `App.jsx` - Componente principal de la aplicación.
+            - `main.jsx` - Punto de entrada de la aplicación.
+            - `index.css` - Estilos globales de la aplicación.
+            - `App.css` - Estilos del componente App.
+        - `.gitignore` - Archivo para ignorar archivos y carpetas en Git.
+        - `index.html` - Página HTML principal.
+        - `package.json` - Configuración del proyecto Node.js.
+        - `package-lock.json` - Versiones exactas de las dependencias.
+        - `vite.config.js` - Configuración de Vite.
+        - `README.md` - Documentación de la aplicación React.
 
     - `sql_files/` - Scripts SQL para la base de datos:
         - `V1__create_tables.sql` - Script SQL para crear las tablas de la base de datos.
@@ -71,29 +77,29 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
 
 ## 🚀 Cómo usarlo (web_python_todolist)
 
-1. Clonar el repositorio.
+1. Clonar el repositorio
     ```
     git clone [https://github.com/miusuario/mirepo-python.git](https://github.com/miusuario/mirepo-python.git)
     ```
 
-2. Navegar al directorio del proyecto.
+2. Navegar al directorio del proyecto
     ```
     cd proyectos
     cd web_python_todolist
     ```
 
-3. Crear y activar un entorno virtual.
+3. Crear y activar un entorno virtual
     ```
     python -m venv .venv
     .venv\Scripts\activate
     ```
 
-4. Instalar las dependencias del proyecto.
+4. Instalar las dependencias del proyecto
     ```
     pip install -r requirements.txt
     ```
 
-5. Configurar la base de datos.
+5. Configurar la base de datos
     * Asegúrate de tener PostgreSQL instalado y configurado.
     * Crea una base de datos en PostgreSQL para el proyecto usando los archivos en sql_files.
     * Crea un archivo .env para guardar las variables de entorno con las credenciales de tu base de datos.
@@ -107,12 +113,13 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
     ```
     * Ejecutar populate_db para intoducir datos básicos en la base de datos.
 
-6. Iniciar la API.
+6. Iniciar la API
     * Ejecuta el servidor de la API
         ```
         python -m api.main
         ```
     * La API estará disponible en http://localhost:8000.
+    * Control + C parar la ejecucion de la api
 
 ### Entornos virtuales (.venv)
 
@@ -135,6 +142,23 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
 
     python.exe -m pip install --upgrade pip  # Actualiza pip
     ```
+
+### React + Vite + Javascript
+
+1. Creación del proyecto react usando vite
+    ```
+    npm create vite@latest
+    npm init -y
+    npm install
+    ```
+
+2. Iniciar la web.
+    * Ejecuta el servidor de la web
+        ```
+        npm run dev
+        ```
+    * La API estará disponible en http://localhost:5173
+    * Control + C parar la ejecucion de la web
 
 ### Test unitarios
 
