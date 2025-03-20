@@ -1,4 +1,18 @@
-/* Reseteo y Normalización Básicos */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+#root {
+  color-scheme: light dark;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 html,
 body {
   margin: 0;
@@ -6,12 +20,6 @@ body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #ffffff; /* Modo claro por defecto */
   color: #222; /* Modo claro por defecto */
-}
-
-#root {
-  color-scheme: light dark;
-  width: 100%;
-  min-height: 100vh;
 }
 
 /* Estilos para el Modo Oscuro */
