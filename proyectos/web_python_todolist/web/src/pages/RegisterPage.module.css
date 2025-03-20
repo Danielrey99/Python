@@ -1,12 +1,27 @@
 .registerContainer {
-    width: 300px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
+    background-color: #f2f2f2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.registerContainer h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
 }
 
 .registerContainer h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .registerContainer {
+        background-color: #333; /* Gris oscuro para modo oscuro */
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra para modo oscuro */
+        border: 1px solid #555; /* Opción de borde */
+    }
 }

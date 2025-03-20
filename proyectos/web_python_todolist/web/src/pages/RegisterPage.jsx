@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import LinkButton from '../components/LinkButton';
+import Logo from '../components/Logo';
 import styles from './RegisterPage.module.css';
 
 function RegisterPage() {
@@ -16,6 +17,8 @@ function RegisterPage() {
 
     return (
         <div className={styles.registerContainer}>
+            <h1>ToDoList</h1>
+            <Logo />
             <h2>Registrarse</h2>
             <form onSubmit={handleSubmit}>
                 <Input

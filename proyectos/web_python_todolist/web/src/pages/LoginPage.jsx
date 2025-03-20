@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import LinkButton from '../components/LinkButton';
+import Logo from '../components/Logo';
 import styles from './LoginPage.module.css';
 
 function LoginPage() {
@@ -16,6 +17,8 @@ function LoginPage() {
 
     return (
         <div className={styles.loginContainer}>
+            <h1>ToDoList</h1>
+            <Logo />
             <h2>Iniciar Sesión</h2>
             <form onSubmit={handleSubmit}>
                 <Input
