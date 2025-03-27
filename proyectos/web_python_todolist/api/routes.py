@@ -29,6 +29,18 @@ class RequestHandler(BaseHTTPRequestHandler):
     Esta clase extiende `BaseHTTPRequestHandler` para proporcionar
     funcionalidad para manejar solicitudes GET y POST a la API.
     """
+    def send_cors_headers(self):
+        """Envía los encabezados CORS necesarios."""
+        self.send_header('Access-Control-Allow-Origin', 'http://localhost:5173')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+
+    def do_OPTIONS(self):
+        """Maneja las solicitudes OPTIONS (preflight)."""
+        self.send_response(204)  # No Content
+        self.send_cors_headers()
+        self.end_headers()
+
     def do_GET(self):
         """
         Maneja las solicitudes GET a la API.
@@ -37,6 +49,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         if self.path == '/':
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
+            self.send_cors_headers()
             self.end_headers()
             ruta_base = os.path.dirname(__file__)  # Obtiene la ruta de 'routes.py'
             ruta_html = os.path.join(ruta_base, 'index.html')
@@ -48,11 +61,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if usuarios:
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps([usuario.to_dict() for usuario in usuarios]).encode('utf-8'))
             else:
                 self.send_response(500) # Internal Server Error
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al obtener usuarios'}).encode('utf-8'))
         elif self.path.startswith('/listas/compartidas/'):
@@ -62,11 +77,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if listas:
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps([lista.to_dict() for lista in listas]).encode('utf-8'))
             else:
                 self.send_response(404) # Not Found
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Listas compartidas no encontradas'}).encode('utf-8'))
         elif self.path.startswith('/listas/id/'):
@@ -76,11 +93,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if lista:
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps(lista.to_dict()).encode('utf-8'))
             else:
                 self.send_response(404) # Not Found
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Lista no encontrada'}).encode('utf-8'))
         elif self.path.startswith('/listas/'):
@@ -90,16 +109,19 @@ class RequestHandler(BaseHTTPRequestHandler):
             if listas:
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps([lista.to_dict() for lista in listas]).encode('utf-8'))
             else:
                 self.send_response(404) # Not Found
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Listas no encontradas'}).encode('utf-8'))
         else:
             self.send_response(404) # Not Found
             self.send_header('Content-type', 'application/json')
+            self.send_cors_headers()
             self.end_headers()
             self.wfile.write(json.dumps({'message': 'Ruta no encontrada'}).encode('utf-8'))
 
@@ -119,11 +141,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if usuario_id:
                 self.send_response(201) # Created
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'id': usuario_id}).encode('utf-8'))
             else:
                 self.send_response(400)  # Bad Request (nombre de usuario duplicado)
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Nombre de usuario duplicado'}).encode('utf-8'))
         elif self.path == '/login':
@@ -134,11 +158,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if usuario:
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps(usuario.to_dict()).encode('utf-8'))
             else:
                 self.send_response(401) # Unauthorized
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Credenciales incorrectas'}).encode('utf-8'))
         elif self.path.startswith('/listas/compartir'):
@@ -148,11 +174,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if compartir_lista(lista_id, usuario_id_compartir):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Lista compartida'}).encode('utf-8'))
             else:
                 self.send_response(500) # Internal Server Error
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al compartir la lista'}).encode('utf-8'))
         elif self.path == '/listas':
@@ -161,16 +189,19 @@ class RequestHandler(BaseHTTPRequestHandler):
             if lista_id:
                 self.send_response(201) # Created
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'id': lista_id}).encode('utf-8'))
             else:
                 self.send_response(500) # Internal Server Error
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al crear la lista'}).encode('utf-8'))
         else:
             self.send_response(404) # Not Found
             self.send_header('Content-type', 'application/json')
+            self.send_cors_headers()
             self.end_headers()
             self.wfile.write(json.dumps({'message': 'Ruta no encontrada'}).encode('utf-8'))
 
@@ -191,11 +222,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if cambiar_nombre_usuario(usuario_id, nuevo_nombre):
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Nombre de usuario actualizado'}).encode('utf-8'))
             else:
                 self.send_response(500)
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al actualizar el nombre de usuario'}).encode('utf-8'))
         elif self.path.startswith('/usuarios/cambiar_rol/'):
@@ -205,11 +238,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if cambiar_rol_usuario(usuario_id, nuevo_rol):
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Rol de usuario actualizado'}).encode('utf-8'))
             else:
                 self.send_response(500)
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al actualizar el rol de usuario'}).encode('utf-8'))
         elif self.path.startswith('/usuarios/cambiar_contrasenha/'):
@@ -218,11 +253,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if cambiar_contrasenha(usuario_id, data['contrasenha_actual'], data['contrasenha_nueva']):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Contraseña actualizada'}).encode('utf-8'))
             else:
                 self.send_response(401) # Unauthorized
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Contraseña actual incorrecta'}).encode('utf-8'))
         elif self.path.startswith('/listas/actualizar/'):
@@ -231,16 +268,19 @@ class RequestHandler(BaseHTTPRequestHandler):
             if actualizar_lista(lista_id, data['nombre_lista'], data['descripcion']):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Lista actualizada'}).encode('utf-8'))
             else:
                 self.send_response(500) # Internal Server Error
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al actualizar lista'}).encode('utf-8'))
         else:
             self.send_response(404) # Not Found
             self.send_header('Content-type', 'application/json')
+            self.send_cors_headers()
             self.end_headers()
             self.wfile.write(json.dumps({'message': 'Ruta no encontrada'}).encode('utf-8'))
 
@@ -255,11 +295,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if eliminar_usuario(usuario_id):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Usuario eliminado'}).encode('utf-8'))
             else:
                 self.send_response(500) # Internal Server Error
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al eliminar usuario'}).encode('utf-8'))
         elif self.path.startswith('/listas/eliminar/'):
@@ -268,16 +310,19 @@ class RequestHandler(BaseHTTPRequestHandler):
             if eliminar_lista(lista_id):
                 self.send_response(200) # OK
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Lista eliminada'}).encode('utf-8'))
             else:
                 self.send_response(500) # Internal Server Error
                 self.send_header('Content-type', 'application/json')
+                self.send_cors_headers()
                 self.end_headers()
                 self.wfile.write(json.dumps({'message': 'Error al eliminar lista'}).encode('utf-8'))
         else:
             self.send_response(404) # Not Found
             self.send_header('Content-type', 'application/json')
+            self.send_cors_headers()
             self.end_headers()
             self.wfile.write(json.dumps({'message': 'Ruta no encontrada'}).encode('utf-8'))
 
