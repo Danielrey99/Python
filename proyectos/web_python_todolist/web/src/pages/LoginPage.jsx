@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import Input from '../components/Input';
-import Button from '../components/Button';
-import LinkButton from '../components/LinkButton';
+import RouteButton from '../components/RouteButton';
 import Logo from '../components/Logo';
-import styles from './LoginPage.module.css';
+import styles from './General.module.css';
 import { loginUsuario } from '../services/apiService';
 
 function LoginPage() {
@@ -16,35 +14,37 @@ function LoginPage() {
             const data = await loginUsuario(username, password);
             console.log('Login exitoso:', data);
             localStorage.setItem('token', data.token);
+            console.log('Token guardado en localStorage:', data.token);
             window.location.href = '/todolist';
         } catch (error) {
             console.error('Error en login:', error.message);
             alert(error.message);
         }
-        console.log('Login:', { username, password });
     };
 
     return (
-        <div className={styles.loginContainer}>
+        <div className={styles.formContainer}>
             <h1>ToDoList</h1>
             <Logo />
             <h2>Iniciar Sesión</h2>
             <form onSubmit={handleSubmit}>
-                <Input
+                <input
                     type="text"
+                    className={styles.formInput}
                     placeholder="Nombre de usuario"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
-                <Input
+                <input
                     type="password"
+                    className={styles.formInput}
                     placeholder="Contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button type="submit">Iniciar Sesión</Button>
+                <button type="submit" className={styles.formButton}>Iniciar Sesión</button>
             </form>
-            <LinkButton to="/register">Registrarse</LinkButton>
+            <RouteButton to="/register">Registrarse</RouteButton>
         </div>
     );
 }

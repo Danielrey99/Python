@@ -1,41 +1,40 @@
 import { useState } from 'react';
-import Input from '../components/Input';
-import Button from '../components/Button';
-import LinkButton from '../components/LinkButton';
+import RouteButton from '../components/RouteButton';
 import Logo from '../components/Logo';
-import styles from './RegisterPage.module.css';
+import styles from './General.module.css';
+//import { crearUsuario } from '../services/apiService';
 
 function RegisterPage() {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Aquí irán las peticiones a la API para el registro
-        console.log('Registro:', { email, password });
     };
 
     return (
-        <div className={styles.registerContainer}>
+        <div className={styles.formContainer}>
             <h1>ToDoList</h1>
             <Logo />
             <h2>Registrarse</h2>
             <form onSubmit={handleSubmit}>
-                <Input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                <input
+                    type="text"
+                    className={styles.formInput}
+                    placeholder="Nombre de usuario"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                 />
-                <Input
+                <input
                     type="password"
+                    className={styles.formInput}
                     placeholder="Contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button type="submit">Registrarse</Button>
+                <button type="submit" className={styles.formButton}>Registrarse</button>
             </form>
-            <LinkButton to="/login">Iniciar Sesión</LinkButton>
+            <RouteButton to="/login">Iniciar Sesión</RouteButton>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-.linkButton {
+.routeButton {
     width: 80%;
     display: inline-block;
     padding: 10px;
@@ -12,6 +12,6 @@
     font-size: 16px;
 }
 
-.linkButton:hover {
+.routeButton:hover {
     background-color: #0056b3;
 }

@@ -1,4 +1,4 @@
-.registerContainer {
+.formContainer {
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -8,20 +8,44 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.registerContainer h1 {
+.formContainer h1 {
     font-size: 2em;
     margin-bottom: 10px;
 }
 
-.registerContainer h2 {
+.formContainer h2 {
     text-align: center;
     margin-bottom: 25px;
 }
 
 @media (prefers-color-scheme: dark) {
-    .registerContainer {
+    .formContainer {
         background-color: #333; /* Gris oscuro para modo oscuro */
         box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra para modo oscuro */
         border: 1px solid #555; /* Opción de borde */
     }
+}
+
+.formButton {
+    width: 80%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.formButton:hover {
+    background-color: #218838;
+}
+
+.formInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
