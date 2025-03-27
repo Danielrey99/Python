@@ -190,7 +190,7 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         ```
         * Este comando instala todas las librerías necesarias especificadas en `package.json`.
 
-2.  Iniciar el servidor de desarrollo:
+2. Iniciar el servidor de desarrollo:
     * Ejecuta el siguiente comando para iniciar el servidor de desarrollo de Vite:
         ```
         npm run dev
@@ -198,13 +198,17 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
     * La aplicación estará disponible en `http://localhost:5173` (o el puerto que Vite asigne).
     * Presiona `Ctrl + C` en la terminal para detener el servidor.
 
-3.  Instalar dependencias adicionales:
+3. Instalar dependencias adicionales:
     * Para instalar una librería o paquete adicional, usa el siguiente comando:
         ```
         npm install <nombre_del_paquete>
         ```
         * Reemplaza `<nombre_del_paquete>` con el nombre de la librería que quieres instalar (ej: `npm install react-router-dom`).
 
+4. Empaqueta tu aplicación para producción
+    ```
+    npm run build
+    ```
 
 ### Test unitarios
 

@@ -4,15 +4,24 @@ import Button from '../components/Button';
 import LinkButton from '../components/LinkButton';
 import Logo from '../components/Logo';
 import styles from './LoginPage.module.css';
+import { loginUsuario } from '../services/apiService';
 
 function LoginPage() {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Aquí irán las peticiones a la API para el login
-        console.log('Login:', { email, password });
+        try {
+            const data = await loginUsuario(username, password);
+            console.log('Login exitoso:', data);
+            localStorage.setItem('token', data.token);
+            window.location.href = '/todolist';
+        } catch (error) {
+            console.error('Error en login:', error.message);
+            alert(error.message);
+        }
+        console.log('Login:', { username, password });
     };
 
     return (
@@ -22,10 +31,10 @@ function LoginPage() {
             <h2>Iniciar Sesión</h2>
             <form onSubmit={handleSubmit}>
                 <Input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="text"
+                    placeholder="Nombre de usuario"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                 />
                 <Input
                     type="password"
