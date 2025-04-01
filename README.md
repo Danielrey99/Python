@@ -53,12 +53,15 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `public/` - Archivos públicos (HTML, imágenes, etc.).
         - `src/` - **Código fuente de la aplicación React**
             - `assets/` - Recursos estáticos (imágenes, SVG, etc.).
-            - `components/Auth/` - **Componentes de autenticación**
-                - `Login.jsx` - Componente para el inicio de sesión.
-                - `Register.jsx` - Componente para el registro de usuarios.
+            - `components/` - Componentes reutilizables de la aplicación.
+                - `Logo.jsx` - Componente para el logo de la aplicación.
+                - `Logo.module.css` - Estilos para el componente Logo.
+                - `RouteButton.jsx` - Componente para botones de navegación.
+                - `RouteButton.module.css` - Estilos para el componente RouteButton.
             - `pages/` - **Páginas de la aplicación**
                 - `LoginPage.jsx` - Página de inicio de sesión.
                 - `RegisterPage.jsx` - Página de registro de usuarios.
+                - `ToDoListPage.jsx` - Página principal de la lista de tareas.
             - `routes/` - **Configuración de rutas**
                 - `AppRoutes.jsx` - Configuración de rutas de la aplicación.
             - `services/` - **Servicios de la aplicación**
