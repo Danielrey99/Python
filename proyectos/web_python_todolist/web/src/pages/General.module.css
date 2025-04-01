@@ -6,6 +6,9 @@
     text-align: center;
     background-color: #f2f2f2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 90%;
+    max-width: 500px;
 }
 
 .formContainer h1 {
@@ -15,14 +18,14 @@
 
 .formContainer h2 {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
     .formContainer {
-        background-color: #333; /* Gris oscuro para modo oscuro */
-        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra para modo oscuro */
-        border: 1px solid #555; /* Opción de borde */
+        background-color: #333;
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        border: 1px solid #555;
     }
 }
 
@@ -43,9 +46,32 @@
 }
 
 .formInput {
-    width: 100%;
+    width: calc(100% - 20px);
     padding: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
+}
+
+.errorContainer {
+    min-height: 20px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    padding: 2px 0;
+}
+
+@media (max-width: 400px) {
+    .formContainer {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .formButton {
+        width: 100%;
+    }
 }

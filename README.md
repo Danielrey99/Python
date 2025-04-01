@@ -66,6 +66,8 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
                 - `AppRoutes.jsx` - Configuración de rutas de la aplicación.
             - `services/` - **Servicios de la aplicación**
                 - `apiService.jsx` - Servicio para interactuar con la API.
+            - `utils/` - **Funciones y utilidades auxiliares**
+                - `validation.js` - Funciones de validación para los datos del usuario.
             - `globalStyles.css` - Estilos globales de la aplicación.
             - `main.jsx` - Punto de entrada de la aplicación.
         - `.gitignore` - Archivo para ignorar archivos y carpetas en Git.
