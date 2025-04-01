@@ -12,9 +12,9 @@ function LoginPage() {
         e.preventDefault();
         try {
             const data = await loginUsuario(username, password);
-            console.log('Login exitoso:', data);
             localStorage.setItem('token', data.token);
-            console.log('Token guardado en localStorage:', data.token);
+            localStorage.setItem('username', data.usuario.nombre_usuario);
+            localStorage.setItem('rol', data.usuario.rol);
             window.location.href = '/todolist';
         } catch (error) {
             console.error('Error en login:', error.message);
