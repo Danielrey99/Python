@@ -1,10 +1,16 @@
 """Módulo para la lógica de negocio de la API."""
 
+import os
 import psycopg2
 import bcrypt
+import jwt
+from dotenv import load_dotenv
 from api.models.usuario import Usuario
 from api.models.lista import Lista
 from api.database.db import create_connection
+
+load_dotenv()
+SECRET_KEY =os.getenv("JWT_KET")
 
 # Usuarios
 def crear_usuario(nombre_usuario, contrasenha):
@@ -47,7 +53,7 @@ def eliminar_usuario(usuario_id):
                 conn.close()
 
 def obtener_usuario_por_nombre(nombre_usuario, contrasenha_ingresada):
-    """Obtiene un usuario por su nombre desde la base de datos, verificando la contraseña."""
+    """Obtiene un usuario por su nombre desde la base de datos, verificando la contraseña y genera un token."""
     conn = create_connection()
     if conn:
         try:
@@ -59,15 +65,22 @@ def obtener_usuario_por_nombre(nombre_usuario, contrasenha_ingresada):
                 usuario_id, nombre_usuario_db, contrasenha_db, rol, fecha_registro = usuario_db
                 # Verificar la contraseña
                 if bcrypt.checkpw(contrasenha_ingresada.encode('utf-8'), contrasenha_db.tobytes()):
+                    # Generar token JWT
+                    payload = {
+                        'id': usuario_id,
+                        'nombre_usuario': nombre_usuario_db,
+                        'rol': rol,
+                    }
+                    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
                     # Contraseña correcta, obtener los datos del usuario sin la contraseña
-                    return Usuario(id=usuario_id, nombre_usuario=nombre_usuario_db, contrasenha=None, rol=rol, fecha_registro=fecha_registro)
+                    return Usuario(id=usuario_id, nombre_usuario=nombre_usuario_db, contrasenha=None, rol=rol, fecha_registro=fecha_registro), token
                 else:
-                    return None # Contraseña incorrecta
+                    return None, None # Contraseña incorrecta
             else:
-                return None # Usuario no encontrado
+                return  None, None # Usuario no encontrado
         except psycopg2.Error as e:
             print(f"Error al obtener usuario: {e}")
-            return None
+            return  None, None
         finally:
             if conn:
                 cur.close()
@@ -117,8 +130,10 @@ def cambiar_contrasenha(usuario_id, contrasenha_actual, contrasenha_nueva):
             # Obtener la contraseña encriptada actual de la base de datos
             cur.execute("SELECT contrasenha FROM usuarios WHERE id = %s", (usuario_id,))
             contrasenha_db = cur.fetchone()[0]
+            # Convertir memoryview a bytes
+            contrasenha_db_bytes = bytes(contrasenha_db)
             # Verificar la contraseña actual
-            if not bcrypt.checkpw(contrasenha_actual.encode('utf-8'), contrasenha_db):
+            if not bcrypt.checkpw(contrasenha_actual.encode('utf-8'), contrasenha_db_bytes):
                 return False  # Contraseña actual incorrecta
             # Encriptar la nueva contraseña
             contrasenha_nueva_encriptada = bcrypt.hashpw(contrasenha_nueva.encode('utf-8'), bcrypt.gensalt())
@@ -293,3 +308,14 @@ def compartir_lista(lista_id, usuario_id_compartir):
             if conn:
                 cur.close()
                 conn.close()
+
+# Verificar Token
+def verificar_token(token):
+    """Verifica un token JWT y devuelve los datos del usuario si es válido."""
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return None # Token expirado
+    except jwt.InvalidTokenError:
+        return None # Token inválido

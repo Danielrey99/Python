@@ -52,13 +52,16 @@ class TestApiServices(unittest.TestCase):
     def test_obtener_usuario_por_nombre(self):
         """Prueba la obtención de un usuario por su nombre a través del servicio."""
         crear_usuario("test_user", "password123")
-        usuario = obtener_usuario_por_nombre("test_user", "password123")
+        usuario, token = obtener_usuario_por_nombre("test_user", "password123")
         self.assertIsNotNone(usuario)
         self.assertEqual(usuario.nombre_usuario, "test_user")
-        usuario_incorrecto = obtener_usuario_por_nombre("test_user", "wrong_password")
+        self.assertIsNotNone(token)  # Verifica que se devuelva el token
+        usuario_incorrecto, token_incorrecto = obtener_usuario_por_nombre("test_user", "wrong_password")
         self.assertIsNone(usuario_incorrecto)
-        usuario_no_encontrado = obtener_usuario_por_nombre("non_existent_user", "password")
+        self.assertIsNone(token_incorrecto)
+        usuario_no_encontrado, token_no_encontrado = obtener_usuario_por_nombre("non_existent_user", "password")
         self.assertIsNone(usuario_no_encontrado)
+        self.assertIsNone(token_no_encontrado)
 
     def test_eliminar_usuario(self):
         """Prueba la eliminación de un usuario a través del servicio."""
@@ -80,7 +83,7 @@ class TestApiServices(unittest.TestCase):
         usuario_id = crear_usuario("test_user", "password123")
         cambiado = cambiar_contrasenha(usuario_id, "password123", "new_password")
         self.assertTrue(cambiado)
-        usuario = obtener_usuario_por_nombre("test_user", "new_password")
+        usuario, token = obtener_usuario_por_nombre("test_user", "new_password")
         self.assertEqual(usuario.contrasenha, "new_password")
         cambiado_incorrecto = cambiar_contrasenha(usuario_id, "password123", "another_password")
         self.assertFalse(cambiado_incorrecto)
