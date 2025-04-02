@@ -1,3 +1,4 @@
+// Register
 export function validateUsername(username) {
     if (!username) {
         return 'El nombre de usuario es obligatorio.';
@@ -28,4 +29,22 @@ export function validatePassword(password) {
         return 'La contraseña debe contener al menos una letra mayúscula.';
     }
     return '';
+}
+
+// Login
+export function validateLoginFields(username, password) {
+    const errors = {
+        username: '',
+        password: '',
+    };
+
+    if (!username) {
+        errors.username = 'El nombre de usuario es obligatorio.';
+    }
+
+    if (!password) {
+        errors.password = 'La contraseña es obligatoria.';
+    }
+
+    return errors;
 }
