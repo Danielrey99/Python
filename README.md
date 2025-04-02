@@ -54,14 +54,21 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
         - `src/` - **Código fuente de la aplicación React**
             - `assets/` - Recursos estáticos (imágenes, SVG, etc.).
             - `components/` - Componentes reutilizables de la aplicación.
+                - `Layout.jsx` - Componente para el layout general de la aplicación.
+                - `Layout.module.css` - Estilos para el componente Layout.
                 - `Logo.jsx` - Componente para el logo de la aplicación.
                 - `Logo.module.css` - Estilos para el componente Logo.
                 - `RouteButton.jsx` - Componente para botones de navegación.
                 - `RouteButton.module.css` - Estilos para el componente RouteButton.
             - `pages/` - **Páginas de la aplicación**
+                - `AdminPage.jsx` - Página para la administración de usuarios (solo para admins).
+                - `CreateListPage.jsx` - Página para crear nuevas listas.
+                - `EditListPage.jsx` - Página para modificar listas existentes.
+                - `General.module.css` - Estilos generales para las páginas.
                 - `LoginPage.jsx` - Página de inicio de sesión.
                 - `RegisterPage.jsx` - Página de registro de usuarios.
                 - `ToDoListPage.jsx` - Página principal de la lista de tareas.
+                - `UserPage.jsx` - Página para la gestión del perfil de usuario.
             - `routes/` - **Configuración de rutas**
                 - `AppRoutes.jsx` - Configuración de rutas de la aplicación.
             - `services/` - **Servicios de la aplicación**
@@ -71,11 +78,12 @@ Este repositorio contiene mi progreso en Python, con ejercicios, proyectos y not
             - `globalStyles.css` - Estilos globales de la aplicación.
             - `main.jsx` - Punto de entrada de la aplicación.
         - `.gitignore` - Archivo para ignorar archivos y carpetas en Git.
+        - `eslint.config.js` - Configuración de ESLint para el proyecto.
         - `index.html` - Página HTML principal.
         - `package.json` - Configuración del proyecto Node.js.
         - `package-lock.json` - Versiones exactas de las dependencias.
-        - `vite.config.js` - Configuración de Vite.
         - `README.md` - Documentación de la aplicación React.
+        - `vite.config.js` - Configuración de Vite.
 
     - `sql_files/` - **Scripts SQL para la base de datos**
         - `V1__create_tables.sql` - Script SQL para crear las tablas de la base de datos.

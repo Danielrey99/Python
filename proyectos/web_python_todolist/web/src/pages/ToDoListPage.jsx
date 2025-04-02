@@ -2,7 +2,7 @@ function ToDoListPage() {
 
     return (
         <div>
-            <h1>Lista de Tareas</h1>
+            <h1>Mis Listas</h1>
         </div>
     );
 }
