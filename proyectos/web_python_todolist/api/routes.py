@@ -251,12 +251,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             if self.path.startswith('/usuarios/cambiar_nombre'):
                 # Cambiar el nombre de usuario
                 nuevo_nombre = data['nuevo_nombre']
-                if cambiar_nombre_usuario(usuario_id, nuevo_nombre):
+                token, actualizado = cambiar_nombre_usuario(usuario_id, nuevo_nombre)
+                if actualizado:
                     self.send_response(200)
                     self.send_header('Content-type', 'application/json')
                     self.send_cors_headers()
                     self.end_headers()
-                    self.wfile.write(json.dumps({'message': 'Nombre de usuario actualizado'}).encode('utf-8'))
+                    self.wfile.write(json.dumps({'message': 'Nombre de usuario actualizado', 'token': token}).encode('utf-8'))
                 else:
                     self.send_response(500)
                     self.send_header('Content-type', 'application/json')
@@ -267,12 +268,13 @@ class RequestHandler(BaseHTTPRequestHandler):
                 # Cambiar el rol de usuario
                 nuevo_rol = data['nuevo_rol']
                 usuario_id_cambiar = data['usuario_id']
-                if cambiar_rol_usuario(usuario_id_cambiar, nuevo_rol):
+                token, actualizado = cambiar_rol_usuario(usuario_id_cambiar, nuevo_rol)
+                if actualizado:
                     self.send_response(200)
                     self.send_header('Content-type', 'application/json')
                     self.send_cors_headers()
                     self.end_headers()
-                    self.wfile.write(json.dumps({'message': 'Rol de usuario actualizado'}).encode('utf-8'))
+                    self.wfile.write(json.dumps({'message': 'Rol de usuario actualizado', 'token': token}).encode('utf-8'))
                 else:
                     self.send_response(500)
                     self.send_header('Content-type', 'application/json')

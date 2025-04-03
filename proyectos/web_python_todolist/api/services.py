@@ -12,6 +12,16 @@ from api.database.db import create_connection
 load_dotenv()
 SECRET_KEY =os.getenv("JWT_KET")
 
+def generar_token(usuario_id, nombre_usuario, rol):
+    """Genera un nuevo token JWT."""
+    payload = {
+        'id': usuario_id,
+        'nombre_usuario': nombre_usuario,
+        'rol': rol,
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    return token
+
 # Usuarios
 def crear_usuario(nombre_usuario, contrasenha):
     """Crea un nuevo usuario en la base de datos con contraseña encriptada."""
@@ -66,12 +76,7 @@ def obtener_usuario_por_nombre(nombre_usuario, contrasenha_ingresada):
                 # Verificar la contraseña
                 if bcrypt.checkpw(contrasenha_ingresada.encode('utf-8'), contrasenha_db.tobytes()):
                     # Generar token JWT
-                    payload = {
-                        'id': usuario_id,
-                        'nombre_usuario': nombre_usuario_db,
-                        'rol': rol,
-                    }
-                    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+                    token = generar_token(usuario_id, nombre_usuario_db, rol)
                     # Contraseña correcta, obtener los datos del usuario sin la contraseña
                     return Usuario(id=usuario_id, nombre_usuario=nombre_usuario_db, contrasenha=None, rol=rol, fecha_registro=fecha_registro), token
                 else:
@@ -104,18 +109,20 @@ def obtener_todos_usuarios():
                 conn.close()
 
 def cambiar_nombre_usuario(usuario_id, nuevo_nombre):
-    """Cambia el nombre de usuario de un usuario."""
+    """Cambia el nombre de usuario de un usuario y genera un nuevo token."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("UPDATE usuarios SET nombre_usuario = %s WHERE id = %s", (nuevo_nombre, usuario_id))
+            cur.execute("UPDATE usuarios SET nombre_usuario = %s WHERE id = %s RETURNING rol", (nuevo_nombre, usuario_id))
+            rol = cur.fetchone()[0]
             conn.commit()
-            return True
+            token = generar_token(usuario_id, nuevo_nombre, rol)
+            return token, True
         except psycopg2.Error as e:
             print(f"Error al cambiar el nombre de usuario: {e}")
             conn.rollback()
-            return False
+            return None, False
         finally:
             if conn:
                 cur.close()
@@ -151,18 +158,20 @@ def cambiar_contrasenha(usuario_id, contrasenha_actual, contrasenha_nueva):
                 conn.close()
 
 def cambiar_rol_usuario(usuario_id, nuevo_rol):
-    """Cambia el rol de un usuario."""
+    """Cambia el rol de un usuario y genera un nuevo token."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("UPDATE usuarios SET rol = %s WHERE id = %s", (nuevo_rol, usuario_id))
+            cur.execute("UPDATE usuarios SET rol = %s WHERE id = %s RETURNING nombre_usuario", (nuevo_rol, usuario_id))
+            nombre_usuario = cur.fetchone()[0]
             conn.commit()
-            return True
+            token = generar_token(usuario_id, nombre_usuario, nuevo_rol)
+            return token, True
         except psycopg2.Error as e:
             print(f"Error al cambiar el rol de usuario: {e}")
             conn.rollback()
-            return False
+            return None, False
         finally:
             if conn:
                 cur.close()

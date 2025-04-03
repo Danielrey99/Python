@@ -55,7 +55,7 @@ class TestApiServices(unittest.TestCase):
         usuario, token = obtener_usuario_por_nombre("test_user", "password123")
         self.assertIsNotNone(usuario)
         self.assertEqual(usuario.nombre_usuario, "test_user")
-        self.assertIsNotNone(token)  # Verifica que se devuelva el token
+        self.assertIsNotNone(token)
         usuario_incorrecto, token_incorrecto = obtener_usuario_por_nombre("test_user", "wrong_password")
         self.assertIsNone(usuario_incorrecto)
         self.assertIsNone(token_incorrecto)
@@ -91,18 +91,22 @@ class TestApiServices(unittest.TestCase):
     def test_cambiar_nombre_usuario(self):
         """Prueba el cambio de nombre de usuario de un usuario."""
         usuario_id = crear_usuario("test_user", "password123")
-        cambiado = cambiar_nombre_usuario(usuario_id, "new_user_name")
+        token, cambiado = cambiar_nombre_usuario(usuario_id, "new_user_name")
         self.assertTrue(cambiado)
-        usuario = obtener_usuario_por_nombre("new_user_name", "password123")
+        self.assertIsNotNone(token)
+        usuario, token2 = obtener_usuario_por_nombre("new_user_name", "password123")
         self.assertIsNotNone(usuario)
-        usuario_no_encontrado = obtener_usuario_por_nombre("test_user", "password123")
+        self.assertIsNotNone(token2)
+        usuario_no_encontrado, token_no_encontrado  = obtener_usuario_por_nombre("test_user", "password123")
         self.assertIsNone(usuario_no_encontrado)
+        self.assertIsNone(token_no_encontrado)
 
     def test_cambiar_rol_usuario(self):
         """Prueba el cambio de rol de un usuario."""
         usuario_id = crear_usuario("test_user", "password123")
-        cambiado = cambiar_rol_usuario(usuario_id, "admin")
+        token, cambiado = cambiar_rol_usuario(usuario_id, "admin")
         self.assertTrue(cambiado)
+        self.assertIsNotNone(token)
         self.cur.execute("SELECT rol FROM usuarios WHERE id = %s", (usuario_id,))
         rol = self.cur.fetchone()[0]
         self.assertEqual(rol, "admin")
