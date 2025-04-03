@@ -118,7 +118,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 elif self.path.startswith('/listas/id'):
                     # Obtener lista por ID
                     lista_id = int(self.path.split('/')[-1])
-                    lista = obtener_lista_por_id(lista_id)
+                    lista = obtener_lista_por_id(lista_id, usuario_id)
                     if lista:
                         self.send_response(200)  # OK
                         self.send_header('Content-type', 'application/json')
@@ -311,7 +311,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                     self.wfile.write(json.dumps({'message': 'Contraseña actual incorrecta'}).encode('utf-8'))
             elif self.path.startswith('/listas/actualizar'):
                 # Actualizar una lista
-                if actualizar_lista(data['lista_id'], data['nombre_lista'], data['descripcion']):
+                if actualizar_lista(data['lista_id'], data['nombre_lista'], data['descripcion'], usuario_id):
                     self.send_response(200) # OK
                     self.send_header('Content-type', 'application/json')
                     self.send_cors_headers()
@@ -357,7 +357,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             elif self.path.startswith('/listas/eliminar/'):
                 # Eliminar una lista
                 lista_id = int(self.path.split('/')[-1])
-                if eliminar_lista(lista_id):
+                if eliminar_lista(lista_id, usuario_id):
                     self.send_response(200) # OK
                     self.send_header('Content-type', 'application/json')
                     self.send_cors_headers()

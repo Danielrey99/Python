@@ -206,16 +206,27 @@ def crear_lista(nombre_lista, descripcion, usuario_id):
                 cur.close()
                 conn.close()
 
-def eliminar_lista(lista_id):
-    """Elimina una lista de la base de datos y sus relaciones."""
+def eliminar_lista(lista_id, usuario_id):
+    """Elimina una lista de la base de datos y sus relaciones, verificando permisos."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("DELETE FROM usuario_lista WHERE lista_id = %s", (lista_id,))
-            cur.execute("DELETE FROM listas WHERE id = %s", (lista_id,))
-            conn.commit()
-            return True
+            # Verificar si el usuario tiene permiso para eliminar la lista
+            cur.execute("""
+                SELECT 1
+                FROM usuario_lista
+                WHERE lista_id = %s AND usuario_id = %s
+            """, (lista_id, usuario_id))
+            if cur.fetchone():
+                # Eliminar las relaciones en usuario_lista
+                cur.execute("DELETE FROM usuario_lista WHERE lista_id = %s", (lista_id,))
+                # Eliminar la lista
+                cur.execute("DELETE FROM listas WHERE id = %s", (lista_id,))
+                conn.commit()
+                return True
+            else:
+                return False
         except psycopg2.Error as e:
             print(f"Error al eliminar lista: {e}")
             conn.rollback()
@@ -247,13 +258,18 @@ def obtener_listas_por_usuario(usuario_id):
                 cur.close()
                 conn.close()
 
-def obtener_lista_por_id(lista_id):
-    """Obtiene una lista por su ID desde la base de datos."""
+def obtener_lista_por_id(lista_id, usuario_id):
+    """Obtiene una lista por su ID desde la base de datos, verificando permisos."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("SELECT id, nombre_lista, descripcion, fecha_creacion FROM listas WHERE id = %s", (lista_id,))
+            cur.execute("""
+                SELECT listas.id, listas.nombre_lista, listas.descripcion, listas.fecha_creacion
+                FROM listas
+                JOIN usuario_lista ON listas.id = usuario_lista.lista_id
+                WHERE listas.id = %s AND usuario_lista.usuario_id = %s
+            """, (lista_id, usuario_id))
             lista = cur.fetchone()
             if lista:
                 return Lista(*lista)
@@ -289,15 +305,22 @@ def obtener_listas_compartidas(usuario_id):
                 cur.close()
                 conn.close()
 
-def actualizar_lista(lista_id, nombre_lista, descripcion):
-    """Actualiza el nombre y la descripción de una lista existente."""
+def actualizar_lista(lista_id, nombre_lista, descripcion, usuario_id):
+    """Actualiza el nombre y la descripción de una lista existente, verificando permisos."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("UPDATE listas SET nombre_lista = %s, descripcion = %s WHERE id = %s", (nombre_lista, descripcion, lista_id))
+            cur.execute("""
+                UPDATE listas
+                SET nombre_lista = %s, descripcion = %s
+                WHERE id = %s AND usuario_id = %s
+            """, (nombre_lista, descripcion, lista_id, usuario_id))
             conn.commit()
-            return True
+            if cur.rowcount > 0:
+                return True
+            else:
+                return False
         except psycopg2.Error as e:
             print(f"Error al actualizar lista: {e}")
             conn.rollback()

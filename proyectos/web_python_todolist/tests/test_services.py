@@ -145,7 +145,7 @@ class TestApiServices(unittest.TestCase):
         """Prueba la obtención de una lista por su ID a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
         lista_id = crear_lista("Lista de prueba", "Descripción de prueba", usuario_id)
-        lista = obtener_lista_por_id(lista_id)
+        lista = obtener_lista_por_id(lista_id, usuario_id)
         self.assertIsNotNone(lista)
         self.assertEqual(lista.nombre_lista, "Lista de prueba")
 
@@ -153,18 +153,18 @@ class TestApiServices(unittest.TestCase):
         """Prueba la actualización de una lista a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
         lista_id = crear_lista("Lista de prueba", "Descripción de prueba", usuario_id)
-        actualizado = actualizar_lista(lista_id, "Lista actualizada", "Nueva descripción")
+        actualizado = actualizar_lista(lista_id, "Lista actualizada", "Nueva descripción", usuario_id)
         self.assertTrue(actualizado)
-        lista = obtener_lista_por_id(lista_id)
+        lista = obtener_lista_por_id(lista_id, usuario_id)
         self.assertEqual(lista.nombre_lista, "Lista actualizada")
 
     def test_eliminar_lista(self):
         """Prueba la eliminación de una lista a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
         lista_id = crear_lista("Lista de prueba", "Descripción de prueba", usuario_id)
-        eliminado = eliminar_lista(lista_id)
+        eliminado = eliminar_lista(lista_id, usuario_id)
         self.assertTrue(eliminado)
-        lista = obtener_lista_por_id(lista_id)
+        lista = obtener_lista_por_id(lista_id, usuario_id)
         self.assertIsNone(lista)
 
     def test_compartir_lista(self):
