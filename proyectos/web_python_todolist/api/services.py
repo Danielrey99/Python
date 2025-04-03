@@ -44,11 +44,18 @@ def crear_usuario(nombre_usuario, contrasenha):
                 conn.close()
 
 def eliminar_usuario(usuario_id):
-    """Elimina un usuario de la base de datos y sus relaciones."""
+    """Elimina un usuario de la base de datos, sus relaciones y las listas no compartidas."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
+            cur.execute("SELECT lista_id FROM usuario_lista WHERE usuario_id = %s", (usuario_id,))
+            listas_usuario = cur.fetchall()
+            for lista_id in listas_usuario:
+                cur.execute("SELECT COUNT(*) FROM usuario_lista WHERE lista_id = %s", (lista_id[0],))
+                count = cur.fetchone()[0]
+                if count == 1:  # Si solo este usuario está asociado a la lista
+                    cur.execute("DELETE FROM listas WHERE id = %s", (lista_id[0],))
             cur.execute("DELETE FROM usuario_lista WHERE usuario_id = %s", (usuario_id,))
             cur.execute("DELETE FROM usuarios WHERE id = %s", (usuario_id,))
             conn.commit()

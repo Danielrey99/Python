@@ -64,12 +64,23 @@ class TestApiServices(unittest.TestCase):
         self.assertIsNone(token_no_encontrado)
 
     def test_eliminar_usuario(self):
-        """Prueba la eliminación de un usuario a través del servicio."""
+        """Prueba la eliminación de un usuario y sus listas no compartidas."""
         usuario_id = crear_usuario("test_user", "password123")
+        lista_id1 = crear_lista("Lista 1", "Descripción 1", usuario_id)
+        lista_id2 = crear_lista("Lista 2", "Descripción 2", usuario_id)
+        usuario_id2 = crear_usuario("test_user2", "password123")
+        compartir_lista(lista_id2, usuario_id2)
         eliminado = eliminar_usuario(usuario_id)
         self.assertTrue(eliminado)
-        usuario = obtener_usuario_por_nombre("test_user", "password123")
+        self.cur.execute("SELECT * FROM usuarios WHERE id = %s", (usuario_id,))
+        usuario = self.cur.fetchone()
         self.assertIsNone(usuario)
+        self.cur.execute("SELECT * FROM listas WHERE id = %s", (lista_id1,))
+        lista1 = self.cur.fetchone()
+        self.assertIsNone(lista1)
+        self.cur.execute("SELECT * FROM listas WHERE id = %s", (lista_id2,))
+        lista2 = self.cur.fetchone()
+        self.assertIsNotNone(lista2)
 
     def test_obtener_todos_usuarios(self):
         """Prueba la obtención de todos los usuarios a través del servicio."""
