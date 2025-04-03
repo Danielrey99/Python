@@ -79,20 +79,27 @@ class RequestHandler(BaseHTTPRequestHandler):
             if payload:
                 usuario_id = payload['id']
                 if self.path == '/usuarios':
-                    # Obtener todos los usuarios
-                    usuarios = obtener_todos_usuarios()
-                    if usuarios:
-                        self.send_response(200)  # OK
-                        self.send_header('Content-type', 'application/json')
-                        self.send_cors_headers()
-                        self.end_headers()
-                        self.wfile.write(json.dumps([usuario.to_dict() for usuario in usuarios]).encode('utf-8'))
+                    # Obtener todos los usuarios (solo para admins)
+                    if payload['rol'] == 'admin':
+                        usuarios = obtener_todos_usuarios()
+                        if usuarios:
+                            self.send_response(200)  # OK
+                            self.send_header('Content-type', 'application/json')
+                            self.send_cors_headers()
+                            self.end_headers()
+                            self.wfile.write(json.dumps([usuario.to_dict() for usuario in usuarios]).encode('utf-8'))
+                        else:
+                            self.send_response(500)  # Internal Server Error
+                            self.send_header('Content-type', 'application/json')
+                            self.send_cors_headers()
+                            self.end_headers()
+                            self.wfile.write(json.dumps({'message': 'Error al obtener usuarios'}).encode('utf-8'))
                     else:
-                        self.send_response(500)  # Internal Server Error
+                        self.send_response(403) # Forbidden
                         self.send_header('Content-type', 'application/json')
                         self.send_cors_headers()
                         self.end_headers()
-                        self.wfile.write(json.dumps({'message': 'Error al obtener usuarios'}).encode('utf-8'))
+                        self.wfile.write(json.dumps({'message': 'Acceso no autorizado'}).encode('utf-8'))
                 elif self.path.startswith('/listas/compartidas'):
                     # Obtener listas compartidas con el usuario
                     listas = obtener_listas_compartidas(usuario_id)
@@ -265,22 +272,29 @@ class RequestHandler(BaseHTTPRequestHandler):
                     self.end_headers()
                     self.wfile.write(json.dumps({'message': 'Error al actualizar el nombre de usuario'}).encode('utf-8'))
             elif self.path.startswith('/usuarios/cambiar_rol'):
-                # Cambiar el rol de usuario
-                nuevo_rol = data['nuevo_rol']
-                usuario_id_cambiar = data['usuario_id']
-                token, actualizado = cambiar_rol_usuario(usuario_id_cambiar, nuevo_rol)
-                if actualizado:
-                    self.send_response(200)
-                    self.send_header('Content-type', 'application/json')
-                    self.send_cors_headers()
-                    self.end_headers()
-                    self.wfile.write(json.dumps({'message': 'Rol de usuario actualizado', 'token': token}).encode('utf-8'))
+                # Cambiar el rol de usuario, solo para admins
+                if payload['rol'] == 'admin':
+                    nuevo_rol = data['nuevo_rol']
+                    usuario_id_cambiar = data['usuario_id']
+                    token, actualizado = cambiar_rol_usuario(usuario_id_cambiar, nuevo_rol)
+                    if actualizado:
+                        self.send_response(200)
+                        self.send_header('Content-type', 'application/json')
+                        self.send_cors_headers()
+                        self.end_headers()
+                        self.wfile.write(json.dumps({'message': 'Rol de usuario actualizado', 'token': token}).encode('utf-8'))
+                    else:
+                        self.send_response(500)
+                        self.send_header('Content-type', 'application/json')
+                        self.send_cors_headers()
+                        self.end_headers()
+                        self.wfile.write(json.dumps({'message': 'Error al actualizar el rol de usuario'}).encode('utf-8'))
                 else:
-                    self.send_response(500)
+                    self.send_response(403) # Forbidden
                     self.send_header('Content-type', 'application/json')
                     self.send_cors_headers()
                     self.end_headers()
-                    self.wfile.write(json.dumps({'message': 'Error al actualizar el rol de usuario'}).encode('utf-8'))
+                    self.wfile.write(json.dumps({'message': 'Acceso no autorizado. Solo admins pueden cambiar roles'}).encode('utf-8'))
             elif self.path.startswith('/usuarios/cambiar_contrasenha'):
                 # Cambiar la contraseña de un usuario
                 if cambiar_contrasenha(usuario_id, data['contrasenha_actual'], data['contrasenha_nueva']):
