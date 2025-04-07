@@ -1,12 +1,11 @@
 .formContainer {
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     border-radius: 5px;
     text-align: center;
-    background-color: #f2f2f2;
+    background-color: var(--background);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
     width: 90%;
     max-width: 500px;
 }
@@ -32,7 +31,7 @@
 .formButton {
     width: 80%;
     padding: 10px;
-    background-color: #28a745;
+    background-color: var(--primary);
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -42,14 +41,14 @@
 }
 
 .formButton:hover {
-    background-color: #218838;
+    background-color: var(--primary-darker);
 }
 
 .formInput {
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     border-radius: 10px;
 }
 
@@ -59,7 +58,7 @@
 }
 
 .error {
-    color: red;
+    color: var(--error);
     font-size: 14px;
     margin: 0;
     padding: 2px 0;
