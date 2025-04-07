@@ -1,3 +1,7 @@
+.content {
+    padding: 20px;
+}
+
 .layoutContainer {
     display: flex;
     height: 100vh;
@@ -6,6 +10,7 @@
     color: var(--text-color);
 }
 
+/* Sidebar: Oculto por defecto */
 .sidebar {
     width: 250px;
     background-color: var(--sidebar-bg);
@@ -14,104 +19,117 @@
     flex-direction: column;
     position: fixed;
     height: 100%;
-    left: 0;
+    left: -250px; /* Oculto por defecto */
     top: 0;
-    transition: transform 0.3s ease-in-out;
+    transition: left 0.3s ease-in-out;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-    }
-    .sidebar.open {
-        transform: translateX(0);
-    }
+/* Mostrar sidebar cuando está abierto */
+.sidebar.open {
+    left: 0;
 }
 
-.menuButton {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    cursor: pointer;
-    position: absolute;
-    top: 15px;
-    right: -40px;
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .menuButton {
-        display: block;
-    }
-}
-
+/* Estilos de los enlaces del sidebar */
 .nav {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 20px;
 }
 
 .nav a {
     text-decoration: none;
     color: var(--text-color);
     font-size: 18px;
-    padding: 10px;
+    padding: 12px 15px;
     border-radius: 5px;
+    background-color: var(--hover-bg);
     transition: background 0.3s, transform 0.2s;
 }
 
 .nav a:hover {
-    background: var(--hover-bg);
+    background: var(--text-color);
+    color: var(--bg-color);
     transform: scale(1.05);
 }
 
+/* Contenido principal */
 .mainContent {
     flex-grow: 1;
-    margin-left: 250px;
+    margin-left: 0;
     display: flex;
     flex-direction: column;
     width: 100%;
+    transition: margin-left 0.3s ease-in-out;
 }
 
-@media (max-width: 768px) {
-    .mainContent {
-        margin-left: 0;
-    }
+/* Si el menú está abierto, empuja el contenido */
+.mainContent.shifted {
+    margin-left: 250px;
 }
 
+/* Header */
 .header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 20px;
     background-color: var(--header-bg);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Botón del menú */
+.menuButton {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 5px;
+    background-color: var(--sidebar-bg);
+    border-radius: 5px;
+}
+
+/* User Info */
 .userInfo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
+/* Username: Más grande y con borde sutil */
+.username {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 2px solid var(--hover-bg);
+}
+
+/* Botón de logout con icono */
 .logoutButton {
-    background-color: #dc3545;
-    color: white;
+    background: transparent;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s;
+    padding: 8px;
+    border-radius: 50%;
+    transition: transform 0.2s;
 }
 
-.logoutButton:hover {
-    background-color: #c82333;
+/* Icono de logout en rojo */
+.logoutButton svg {
+    color: #dc3545; /* Rojo para resaltar */
+    transition: color 0.3s, transform 0.2s;
 }
 
-.content {
-    flex-grow: 1;
-    padding: 20px;
+/* Hover: oscurecemos el rojo y lo agrandamos un poco */
+.logoutButton:hover svg {
+    color: #c82333;
+    transform: scale(1.1);
 }
 
+/* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     :root {
         --bg-color: #1e1e1e;
@@ -122,6 +140,7 @@
     }
 }
 
+/* Modo claro */
 @media (prefers-color-scheme: light) {
     :root {
         --bg-color: #f8f9fa;
@@ -131,4 +150,3 @@
         --hover-bg: #ddd;
     }
 }
-

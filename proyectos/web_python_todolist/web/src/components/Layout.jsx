@@ -1,8 +1,7 @@
-// Layout.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Layout.module.css';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogOut } from 'lucide-react'; // Importamos el icono de logout
 
 function Layout({ children }) {
     const username = localStorage.getItem('username');
@@ -17,9 +16,6 @@ function Layout({ children }) {
         <div className={styles.layoutContainer}>
             {/* Sidebar */}
             <aside className={`${styles.sidebar} ${menuOpen ? styles.open : ''}`}>
-                <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
-                    {menuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
                 <nav className={styles.nav}>
                     <Link to="/todolist" onClick={() => setMenuOpen(false)}>📋 Listas</Link>
                     <Link to="/create-list" onClick={() => setMenuOpen(false)}>➕ Crear Lista</Link>
@@ -32,11 +28,19 @@ function Layout({ children }) {
             </aside>
 
             {/* Contenido principal */}
-            <div className={styles.mainContent}>
+            <div className={`${styles.mainContent} ${menuOpen ? styles.shifted : ''}`}>
                 <header className={styles.header}>
+                    {/* Botón dentro del header, alineado a la izquierda */}
+                    <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
+                        {menuOpen ? <X size={30} /> : <Menu size={30} />}
+                    </button>
+
+                    {/* Sección de usuario */}
                     <div className={styles.userInfo}>
-                        <span>{username}</span>
-                        <button className={styles.logoutButton} onClick={handleLogout}>Cerrar Sesión</button>
+                        <span className={styles.username}>{username}</span>
+                        <button className={styles.logoutButton} onClick={handleLogout}>
+                            <LogOut size={24} />
+                        </button>
                     </div>
                 </header>
                 <main className={styles.content}>{children}</main>
