@@ -8,7 +8,7 @@ import CreateListPage from '../pages/CreateListPage';
 import EditListPage from '../pages/EditListPage';
 import UserPage from '../pages/UserPage';
 import AdminPage from '../pages/AdminPage';
-// Importa otras páginas
+import ListDetailPage from '../pages/ListDetailPage';
 
 function AppRoutes() {
     const isLoggedIn = !!localStorage.getItem('token');
@@ -22,6 +22,7 @@ function AppRoutes() {
                 <Route path="/create-list" element={isLoggedIn ? <Layout><CreateListPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/edit-lista" element={isLoggedIn ? <Layout><EditListPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/user" element={isLoggedIn ? <Layout><UserPage /></Layout> : <Navigate replace to="/login" />} />
+                <Route path="/list/:id" element={isLoggedIn ? <Layout><ListDetailPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/admin" element={isLoggedIn && localStorage.getItem('rol') === 'admin' ? <Layout><AdminPage /></Layout> : <Navigate replace to="/login" />} />
             </Routes>
         </BrowserRouter>

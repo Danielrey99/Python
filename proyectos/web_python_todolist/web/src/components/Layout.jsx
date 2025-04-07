@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Layout.module.css';
-import { Menu, X, LogOut } from 'lucide-react'; // Importamos el icono de logout
+import { Menu, X, LogOut } from 'lucide-react';
 
 function Layout({ children }) {
     const username = localStorage.getItem('username');
@@ -19,7 +19,6 @@ function Layout({ children }) {
                 <nav className={styles.nav}>
                     <Link to="/todolist" onClick={() => setMenuOpen(false)}>📋 Listas</Link>
                     <Link to="/create-list" onClick={() => setMenuOpen(false)}>➕ Crear Lista</Link>
-                    <Link to="/edit-lista" onClick={() => setMenuOpen(false)}>✏️ Modificar Lista</Link>
                     <Link to="/user" onClick={() => setMenuOpen(false)}>👤 Mi Perfil</Link>
                     {localStorage.getItem('rol') === 'admin' && (
                         <Link to="/admin" onClick={() => setMenuOpen(false)}>⚙️ Usuarios</Link>

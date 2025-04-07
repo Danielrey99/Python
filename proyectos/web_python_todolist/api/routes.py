@@ -34,7 +34,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         """Envía los encabezados CORS necesarios."""
         self.send_header('Access-Control-Allow-Origin', 'http://localhost:5173')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
     def do_OPTIONS(self):
         """Maneja las solicitudes OPTIONS (preflight)."""

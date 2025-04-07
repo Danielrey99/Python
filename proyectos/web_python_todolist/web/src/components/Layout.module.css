@@ -10,7 +10,6 @@
     color: var(--text-color);
 }
 
-/* Sidebar: Oculto por defecto */
 .sidebar {
     width: 250px;
     background-color: var(--sidebar-bg);
@@ -25,12 +24,11 @@
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Mostrar sidebar cuando está abierto */
+/* Mostrar sidebar*/
 .sidebar.open {
     left: 0;
 }
 
-/* Estilos de los enlaces del sidebar */
 .nav {
     display: flex;
     flex-direction: column;
@@ -54,7 +52,6 @@
     transform: scale(1.05);
 }
 
-/* Contenido principal */
 .mainContent {
     flex-grow: 1;
     margin-left: 0;
@@ -64,12 +61,11 @@
     transition: margin-left 0.3s ease-in-out;
 }
 
-/* Si el menú está abierto, empuja el contenido */
+/* Mueve contenido con menu abierto */
 .mainContent.shifted {
     margin-left: 250px;
 }
 
-/* Header */
 .header {
     display: flex;
     justify-content: space-between;
@@ -79,7 +75,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Botón del menú */
 .menuButton {
     background: none;
     border: none;
@@ -90,14 +85,12 @@
     border-radius: 5px;
 }
 
-/* User Info */
 .userInfo {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* Username: Más grande y con borde sutil */
 .username {
     font-size: 18px;
     font-weight: bold;
@@ -107,7 +100,6 @@
     border: 2px solid var(--hover-bg);
 }
 
-/* Botón de logout con icono */
 .logoutButton {
     background: transparent;
     border: none;
@@ -117,19 +109,16 @@
     transition: transform 0.2s;
 }
 
-/* Icono de logout en rojo */
 .logoutButton svg {
-    color: #dc3545; /* Rojo para resaltar */
+    color: #dc3545;
     transition: color 0.3s, transform 0.2s;
 }
 
-/* Hover: oscurecemos el rojo y lo agrandamos un poco */
 .logoutButton:hover svg {
     color: #c82333;
     transform: scale(1.1);
 }
 
-/* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     :root {
         --bg-color: #1e1e1e;
@@ -140,7 +129,6 @@
     }
 }
 
-/* Modo claro */
 @media (prefers-color-scheme: light) {
     :root {
         --bg-color: #f8f9fa;
