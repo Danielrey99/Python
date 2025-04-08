@@ -153,10 +153,20 @@ class TestApiServices(unittest.TestCase):
         """Prueba la actualización de una lista a través del servicio."""
         usuario_id = crear_usuario("test_user", "password123")
         lista_id = crear_lista("Lista de prueba", "Descripción de prueba", usuario_id)
+        # Actualización exitosa
         actualizado = actualizar_lista(lista_id, "Lista actualizada", "Nueva descripción", usuario_id)
         self.assertTrue(actualizado)
         lista = obtener_lista_por_id(lista_id, usuario_id)
         self.assertEqual(lista.nombre_lista, "Lista actualizada")
+
+        # Actualización fallida por falta de permisos
+        usuario_id2 = crear_usuario("test_user2", "password123")
+        actualizado_sin_permisos = actualizar_lista(lista_id, "Lista actualizada por usuario sin permiso", "Descripción", usuario_id2)
+        self.assertFalse(actualizado_sin_permisos)
+
+        # La lista no debe haber sido actualizada por el usuario sin permisos
+        lista_sin_permisos = obtener_lista_por_id(lista_id, usuario_id)
+        self.assertEqual(lista_sin_permisos.nombre_lista, "Lista actualizada")
 
     def test_eliminar_lista(self):
         """Prueba la eliminación de una lista a través del servicio."""

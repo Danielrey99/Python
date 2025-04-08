@@ -314,7 +314,8 @@ def actualizar_lista(lista_id, nombre_lista, descripcion, usuario_id):
             cur.execute("""
                 UPDATE listas
                 SET nombre_lista = %s, descripcion = %s
-                WHERE id = %s AND usuario_id = %s
+                WHERE id = %s AND
+                id in (select lista_id from usuario_lista where usuario_id = %s)
             """, (nombre_lista, descripcion, lista_id, usuario_id))
             conn.commit()
             if cur.rowcount > 0:
