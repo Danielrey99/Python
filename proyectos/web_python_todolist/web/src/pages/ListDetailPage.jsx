@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { obtenerListaPorId } from '../services/apiService';
 import styles from './ListDetailPage.module.css';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Edit, ArrowLeft } from 'lucide-react';
 
 function ListDetailPage() {
     const { id } = useParams();
@@ -49,8 +49,13 @@ function ListDetailPage() {
         <div className={styles.container}>
             <h1 className={styles.title}>{lista.nombre_lista}</h1>
             <p className={styles.description}>{lista.descripcion || 'Sin descripción'}</p>
-            
-            <Link to="/todolist" className={styles.backButton}>Volver a Mis Listas</Link>
+
+            <Link to="/todolist" className={styles.backButton}>
+                <ArrowLeft size={24} />
+            </Link>
+            <Link to={`/edit-list/${lista.id}`} className={styles.editLink}>
+                <Edit size={24} />
+            </Link>
         </div>
     );
 }

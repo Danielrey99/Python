@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { obtenerListasUsuario } from '../services/apiService';
 import styles from './ToDoListPage.module.css';
-import { Eye, Loader2 } from 'lucide-react';
+import { Eye, Loader2, Edit } from 'lucide-react';
 
 function ToDoListPage() {
     const [listas, setListas] = useState(null);
@@ -64,6 +64,9 @@ function ToDoListPage() {
                                 <td>
                                     <Link to={`/list/${lista.id}`} className={styles.viewLink}>
                                         <Eye size={24} />
+                                    </Link>
+                                    <Link to={`/edit-list/${lista.id}`} className={styles.editLink}>
+                                        <Edit size={24} />
                                     </Link>
                                 </td>
                             </tr>

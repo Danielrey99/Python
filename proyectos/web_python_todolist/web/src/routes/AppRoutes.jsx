@@ -20,7 +20,7 @@ function AppRoutes() {
                 <Route path="/register" element={isLoggedIn ? <Navigate replace to="/todolist" /> : <RegisterPage />} />
                 <Route path="/todolist" element={isLoggedIn ? <Layout><ToDoListPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/create-list" element={isLoggedIn ? <Layout><CreateListPage /></Layout> : <Navigate replace to="/login" />} />
-                <Route path="/edit-lista" element={isLoggedIn ? <Layout><EditListPage /></Layout> : <Navigate replace to="/login" />} />
+                <Route path="/edit-list/:id" element={isLoggedIn ? <Layout><EditListPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/user" element={isLoggedIn ? <Layout><UserPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/list/:id" element={isLoggedIn ? <Layout><ListDetailPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/admin" element={isLoggedIn && localStorage.getItem('rol') === 'admin' ? <Layout><AdminPage /></Layout> : <Navigate replace to="/login" />} />

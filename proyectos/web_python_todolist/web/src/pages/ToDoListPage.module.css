@@ -49,23 +49,6 @@
     color: var(--secondary-text);
 }
 
-.viewLink {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    border-radius: 5px;
-    background-color: var(--primary);
-    color: white;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.2s;
-}
-
-.viewLink:hover {
-    background-color: var(--primary-darker);
-    transform: scale(1.1);
-}
-
 .fullScreenContainer {
     display: flex;
     justify-content: center;
@@ -109,6 +92,43 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.viewLink,
+.editLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.viewLink {
+    background-color: var(--primary);
+    margin-right: 10px;
+}
+
+.editLink {
+    background-color: var(--secondary);
+    margin-left: 10px;
+}
+
+.viewLink:hover {
+    background-color: var(--primary-darker);
+    transform: scale(1.1);
+}
+
+.editLink:hover {
+    background-color: var(--secondary-darker);
+    transform: scale(1.1);
 }
