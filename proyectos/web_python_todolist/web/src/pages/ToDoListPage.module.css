@@ -49,15 +49,6 @@
     color: var(--secondary-text);
 }
 
-.error {
-    color: var(--error);
-    background-color: var(--error-background);
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 20px;
-    text-align: center;
-}
-
 .viewLink {
     display: inline-flex;
     align-items: center;
@@ -73,4 +64,51 @@
 .viewLink:hover {
     background-color: var(--primary-darker);
     transform: scale(1.1);
+}
+
+.fullScreenContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.messageContainer {
+    text-align: center;
+}
+
+.loading {
+    color: var(--secondary-text);
+    background-color: var(--table-row-alt);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error {
+    color: var(--error);
+    background-color: var(--error-background);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.loaderIcon {
+    margin-right: 10px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

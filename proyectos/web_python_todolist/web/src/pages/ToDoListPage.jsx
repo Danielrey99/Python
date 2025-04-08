@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { obtenerListasUsuario } from '../services/apiService';
 import styles from './ToDoListPage.module.css';
-import { Eye } from 'lucide-react';
+import { Eye, Loader2 } from 'lucide-react';
 
 function ToDoListPage() {
-    const [listas, setListas] = useState([]);
+    const [listas, setListas] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -22,7 +22,26 @@ function ToDoListPage() {
     }, []);
 
     if (error) {
-        return <div className={styles.error}>Error: {error}</div>;
+        return (
+            <div className={styles.fullScreenContainer}>
+                <div className={styles.messageContainer}>
+                    <div className={styles.error}>Error: {error}</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!listas) {
+        return (
+            <div className={styles.fullScreenContainer}>
+                <div className={styles.messageContainer}>
+                    <div className={styles.loading}>
+                        <Loader2 size={30} className={styles.loaderIcon} />
+                        Cargando listas...
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { obtenerListaPorId } from '../services/apiService';
 import styles from './ListDetailPage.module.css';
+import { Loader2 } from 'lucide-react';
 
 function ListDetailPage() {
     const { id } = useParams();
@@ -22,11 +23,26 @@ function ListDetailPage() {
     }, [id]);
 
     if (error) {
-        return <div className={styles.error}>Error: {error}</div>;
+        return (
+            <div className={styles.fullScreenContainer}>
+                <div className={styles.messageContainer}>
+                    <div className={styles.error}>Error: {error}</div>
+                </div>
+            </div>
+        );
     }
 
     if (!lista) {
-        return <div className={styles.loading}>Cargando lista...</div>;
+        return (
+            <div className={styles.fullScreenContainer}>
+                <div className={styles.messageContainer}>
+                    <div className={styles.loading}>
+                        <Loader2 size={30} className={styles.loaderIcon} />
+                        Cargando lista...
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (
