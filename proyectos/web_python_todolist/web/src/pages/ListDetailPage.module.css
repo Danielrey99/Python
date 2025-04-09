@@ -69,7 +69,13 @@
     100% { transform: rotate(360deg); }
 }
 
-.detailBackButton, .detailEditLink {
+.detailActionsContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.detailBackButton, .detailEditLink, .detailDeleteButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -78,18 +84,20 @@
     color: white;
     text-decoration: none;
     transition: background-color 0.3s;
+    margin: 0 10px;
 }
 
 .detailBackButton {
     background-color: var(--primary);
-    margin-right: 10px;
-    margin-top: 10px;
 }
 
 .detailEditLink {
     background-color: var(--secondary);
-    margin-left: 10px;
-    margin-top: 10px;
+}
+
+.detailDeleteButton {
+    background-color: red;
+    border: none; /* Añadido para eliminar el borde blanco */
 }
 
 .detailBackButton:hover {
@@ -99,5 +107,10 @@
 
 .detailEditLink:hover {
     background-color: var(--secondary-darker);
+    transform: scale(1.1);
+}
+
+.detailDeleteButton:hover {
+    background-color: darkred;
     transform: scale(1.1);
 }
