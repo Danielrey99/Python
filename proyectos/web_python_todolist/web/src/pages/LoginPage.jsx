@@ -40,8 +40,8 @@ function LoginPage() {
             <h1>ToDoList</h1>
             <Logo />
             <h2>Iniciar Sesión</h2>
-            <div className={styles.errorContainer}>
-                {generalError && <p className={styles.error}>{generalError}</p>}
+            <div className={styles.formErrorContainer}>
+                {generalError && <p className={styles.formError}>{generalError}</p>}
             </div>
             <form onSubmit={handleSubmit}>
                 <input
@@ -51,8 +51,8 @@ function LoginPage() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
-                <div className={styles.errorContainer}>
-                    {usernameError && <p className={styles.error}>{usernameError}</p>}
+                <div className={styles.formErrorContainer}>
+                    {usernameError && <p className={styles.formError}>{usernameError}</p>}
                 </div>
                 <input
                     type="password"
@@ -61,8 +61,8 @@ function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <div className={styles.errorContainer}>
-                    {passwordError && <p className={styles.error}>{passwordError}</p>}
+                <div className={styles.formErrorContainer}>
+                    {passwordError && <p className={styles.formError}>{passwordError}</p>}
                 </div>
                 <button type="submit" className={styles.formButton}>Iniciar Sesión</button>
             </form>

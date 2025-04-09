@@ -33,7 +33,7 @@ function EditListPage() {
         setError(null);
         try {
             await actualizarLista(id, nombreLista, descripcion);
-            navigate(`/list/${id}`); // Redirigir a ListDetailPage después de la actualización
+            navigate(`/list/${id}`);
         } catch (err) {
             setError(err.message);
             setLoading(false);
@@ -42,10 +42,10 @@ function EditListPage() {
 
     if (loading) {
         return (
-            <div className={styles.fullScreenContainer}>
-                <div className={styles.messageContainer}>
-                    <div className={styles.loading}>
-                        <Loader2 size={30} className={styles.loaderIcon} />
+            <div className={styles.editFullScreenContainer}>
+                <div className={styles.editMessageContainer}>
+                    <div className={styles.editLoading}>
+                        <Loader2 size={30} className={styles.editLoaderIcon} />
                         Cargando lista...
                     </div>
                 </div>
@@ -55,46 +55,49 @@ function EditListPage() {
 
     if (error) {
         return (
-            <div className={styles.fullScreenContainer}>
-                <div className={styles.messageContainer}>
-                    <div className={styles.error}>Error: {error}</div>
+            <div className={styles.editFullScreenContainer}>
+                <div className={styles.editMessageContainer}>
+                    <div className={styles.editError}>Error: {error}</div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.title}>Editar Lista</h1>
+        <div className={styles.editContainer}>
+            <h1 className={styles.editTitle}>Editar Lista</h1>
             <form onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                    <label htmlFor="nombreLista">Nombre:</label>
+                <div className={styles.editFormGroup}>
+                    <label htmlFor="nombreLista" className={styles.editLabel}>Nombre:</label>
                     <input
                         type="text"
                         id="nombreLista"
                         value={nombreLista}
                         onChange={(e) => setNombreLista(e.target.value)}
                         required
+                        className={styles.editInput}
                     />
                 </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="descripcion">Descripción:</label>
+                <div className={styles.editFormGroup}>
+                    <label htmlFor="descripcion" className={styles.editLabel}>Descripción:</label>
                     <textarea
                         id="descripcion"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
+                        className={styles.editTextarea}
+                        rows="12"
                     />
                 </div>
-                <button type="submit" className={styles.saveButton}>
-                    <Save size={24} className={styles.iconMargin} /> Guardar Cambios
+                <button type="submit" className={styles.editSaveButton}>
+                    <Save size={24} className={styles.editIconMargin} /> Guardar Cambios
                 </button>
             </form>
-            <div className={styles.linksContainer}>
-                <Link to="/todolist" className={styles.backButton}>
-                    <ArrowLeft size={24} className={styles.iconMargin} /> Volver a Mis Listas
+            <div className={styles.editLinksContainer}>
+                <Link to="/todolist" className={styles.editBackButton}>
+                    <ArrowLeft size={24} className={styles.editIconMargin} /> Volver a Mis Listas
                 </Link>
-                <Link to={`/list/${id}`} className={styles.viewLink}>
-                    <Eye size={24} className={styles.iconMargin} /> Ver Detalles
+                <Link to={`/list/${id}`} className={styles.editViewLink}>
+                    <Eye size={24} className={styles.editIconMargin} /> Ver Detalles
                 </Link>
             </div>
         </div>

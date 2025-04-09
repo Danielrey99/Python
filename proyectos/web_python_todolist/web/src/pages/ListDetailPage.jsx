@@ -24,9 +24,9 @@ function ListDetailPage() {
 
     if (error) {
         return (
-            <div className={styles.fullScreenContainer}>
-                <div className={styles.messageContainer}>
-                    <div className={styles.error}>Error: {error}</div>
+            <div className={styles.detailFullScreenContainer}>
+                <div className={styles.detailMessageContainer}>
+                    <div className={styles.detailError}>Error: {error}</div>
                 </div>
             </div>
         );
@@ -34,10 +34,10 @@ function ListDetailPage() {
 
     if (!lista) {
         return (
-            <div className={styles.fullScreenContainer}>
-                <div className={styles.messageContainer}>
-                    <div className={styles.loading}>
-                        <Loader2 size={30} className={styles.loaderIcon} />
+            <div className={styles.detailFullScreenContainer}>
+                <div className={styles.detailMessageContainer}>
+                    <div className={styles.detailLoading}>
+                        <Loader2 size={30} className={styles.detailLoaderIcon} />
                         Cargando lista...
                     </div>
                 </div>
@@ -46,14 +46,21 @@ function ListDetailPage() {
     }
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.title}>{lista.nombre_lista}</h1>
-            <p className={styles.description}>{lista.descripcion || 'Sin descripción'}</p>
+        <div className={styles.detailContainer}>
+            <h1 className={styles.detailTitle}>{lista.nombre_lista}</h1>
+            <p className={styles.detailDescription}>
+                {lista.descripcion ? lista.descripcion.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                        {line}
+                        {index < lista.descripcion.split('\n').length - 1 && <br />}
+                    </React.Fragment>
+                )) : 'Sin descripción'}
+            </p>
 
-            <Link to="/todolist" className={styles.backButton}>
+            <Link to="/todolist" className={styles.detailBackButton}>
                 <ArrowLeft size={24} />
             </Link>
-            <Link to={`/edit-list/${lista.id}`} className={styles.editLink}>
+            <Link to={`/edit-list/${lista.id}`} className={styles.detailEditLink}>
                 <Edit size={24} />
             </Link>
         </div>

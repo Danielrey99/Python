@@ -1,4 +1,4 @@
-.container {
+.detailContainer {
     width: 90%;
     max-width: 600px;
     margin: 20px auto;
@@ -10,19 +10,19 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.title {
+.detailTitle {
     font-size: 2em;
     margin-bottom: 10px;
     color: var(--primary);
 }
 
-.description {
+.detailDescription {
     font-size: 1.2em;
     color: var(--secondary-text);
     margin-bottom: 20px;
 }
 
-.fullScreenContainer {
+.detailFullScreenContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,11 +34,11 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.messageContainer {
+.detailMessageContainer {
     text-align: center;
 }
 
-.loading {
+.detailLoading {
     color: var(--secondary-text);
     background-color: var(--table-row-alt);
     padding: 10px;
@@ -50,7 +50,7 @@
     justify-content: center;
 }
 
-.error {
+.detailError {
     color: var(--error);
     background-color: var(--error-background);
     padding: 10px;
@@ -59,7 +59,7 @@
     text-align: center;
 }
 
-.loaderIcon {
+.detailLoaderIcon {
     margin-right: 10px;
     animation: spin 2s linear infinite;
 }
@@ -69,7 +69,7 @@
     100% { transform: rotate(360deg); }
 }
 
-.backButton, .editLink {
+.detailBackButton, .detailEditLink {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -80,22 +80,24 @@
     transition: background-color 0.3s;
 }
 
-.backButton {
+.detailBackButton {
     background-color: var(--primary);
     margin-right: 10px;
+    margin-top: 10px;
 }
 
-.editLink {
+.detailEditLink {
     background-color: var(--secondary);
     margin-left: 10px;
+    margin-top: 10px;
 }
 
-.backButton:hover {
+.detailBackButton:hover {
     background-color: var(--primary-darker);
     transform: scale(1.1);
 }
 
-.editLink:hover {
+.detailEditLink:hover {
     background-color: var(--secondary-darker);
     transform: scale(1.1);
 }

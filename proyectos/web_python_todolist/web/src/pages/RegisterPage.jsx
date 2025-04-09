@@ -14,11 +14,14 @@ function RegisterPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setUsernameError(validateUsername(username));
-        setPasswordError(validatePassword(password));
+        const usernameErrorMsg = validateUsername(username);
+        const passwordErrorMsg = validatePassword(password);
+
+        setUsernameError(usernameErrorMsg);
+        setPasswordError(passwordErrorMsg);
         setGeneralError('');
 
-        if (usernameError || passwordError) {
+        if (usernameErrorMsg || passwordErrorMsg) {
             return;
         }
 
@@ -37,8 +40,8 @@ function RegisterPage() {
             <h1>ToDoList</h1>
             <Logo />
             <h2>Registrarse</h2>
-            <div className={styles.errorContainer}>
-                {generalError && <p className={styles.error}>{generalError}</p>}
+            <div className={styles.formErrorContainer}>
+                {generalError && <p className={styles.formError}>{generalError}</p>}
             </div>
             <form onSubmit={handleSubmit}>
                 <input
@@ -48,8 +51,8 @@ function RegisterPage() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
-                <div className={styles.errorContainer}>
-                    {usernameError && <p className={styles.error}>{usernameError}</p>}
+                <div className={styles.formErrorContainer}>
+                    {usernameError && <p className={styles.formError}>{usernameError}</p>}
                 </div>
                 <input
                     type="password"
@@ -58,8 +61,8 @@ function RegisterPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <div className={styles.errorContainer}>
-                    {passwordError && <p className={styles.error}>{passwordError}</p>}
+                <div className={styles.formErrorContainer}>
+                    {passwordError && <p className={styles.formError}>{passwordError}</p>}
                 </div>
                 <button type="submit" className={styles.formButton}>Registrarse</button>
             </form>

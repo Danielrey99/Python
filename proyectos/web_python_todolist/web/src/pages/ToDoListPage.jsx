@@ -23,9 +23,9 @@ function ToDoListPage() {
 
     if (error) {
         return (
-            <div className={styles.fullScreenContainer}>
-                <div className={styles.messageContainer}>
-                    <div className={styles.error}>Error: {error}</div>
+            <div className={styles.todoFullScreenContainer}>
+                <div className={styles.todoMessageContainer}>
+                    <div className={styles.todoError}>Error: {error}</div>
                 </div>
             </div>
         );
@@ -33,10 +33,10 @@ function ToDoListPage() {
 
     if (!listas) {
         return (
-            <div className={styles.fullScreenContainer}>
-                <div className={styles.messageContainer}>
-                    <div className={styles.loading}>
-                        <Loader2 size={30} className={styles.loaderIcon} />
+            <div className={styles.todoFullScreenContainer}>
+                <div className={styles.todoMessageContainer}>
+                    <div className={styles.todoLoading}>
+                        <Loader2 size={30} className={styles.todoLoaderIcon} />
                         Cargando listas...
                     </div>
                 </div>
@@ -45,10 +45,10 @@ function ToDoListPage() {
     }
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.title}>Mis Listas</h1>
+        <div className={styles.todoContainer}>
+            <h1 className={styles.todoTitle}>Mis Listas</h1>
             {listas.length > 0 ? (
-                <table className={styles.table}>
+                <table className={styles.todoTable}>
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -62,10 +62,10 @@ function ToDoListPage() {
                                 <td>{lista.nombre_lista}</td>
                                 <td>{new Date(lista.fecha_creacion).toLocaleDateString()}</td>
                                 <td>
-                                    <Link to={`/list/${lista.id}`} className={styles.viewLink}>
+                                    <Link to={`/list/${lista.id}`} className={styles.todoViewLink}>
                                         <Eye size={24} />
                                     </Link>
-                                    <Link to={`/edit-list/${lista.id}`} className={styles.editLink}>
+                                    <Link to={`/edit-list/${lista.id}`} className={styles.todoEditLink}>
                                         <Edit size={24} />
                                     </Link>
                                 </td>
@@ -74,7 +74,7 @@ function ToDoListPage() {
                     </tbody>
                 </table>
             ) : (
-                <p className={styles.noLists}>No tienes listas creadas.</p>
+                <p className={styles.todoNoLists}>No tienes listas creadas.</p>
             )}
         </div>
     );

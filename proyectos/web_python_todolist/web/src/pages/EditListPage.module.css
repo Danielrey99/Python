@@ -1,4 +1,4 @@
-.container {
+.editContainer {
     width: 90%;
     max-width: 600px;
     margin: 20px auto;
@@ -10,25 +10,25 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.title {
+.editTitle {
     font-size: 2em;
     margin-bottom: 20px;
     color: var(--primary);
 }
 
-.formGroup {
+.editFormGroup {
     margin-bottom: 15px;
     text-align: left;
 }
 
-label {
+.editLabel {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-input[type="text"],
-textarea {
+.editInput,
+.editTextarea {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--border);
@@ -37,11 +37,11 @@ textarea {
     color: var(--text);
 }
 
-textarea {
+.editTextarea {
     resize: vertical;
 }
 
-.saveButton {
+.editSaveButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,17 +55,18 @@ textarea {
     margin-top: 20px;
 }
 
-.saveButton:hover {
+.editSaveButton:hover {
     background-color: var(--secondary-darker);
 }
 
-.linksContainer {
+.editLinksContainer {
     margin-top: 20px;
     display: flex;
     justify-content: center;
 }
 
-.backButton, .viewLink {
+.editBackButton, 
+.editViewLink {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -77,24 +78,25 @@ textarea {
     margin: 0 10px;
 }
 
-.backButton {
+.editBackButton {
     background-color: var(--primary);
 }
 
-.viewLink {
+.editViewLink {
     background-color: var(--primary);
 }
 
-.backButton:hover, .viewLink:hover {
+.editBackButton:hover, 
+.editViewLink:hover {
     background-color: var(--primary-darker);
     transform: scale(1.1);
 }
 
-.iconMargin {
+.editIconMargin {
     margin-right: 10px;
 }
 
-.fullScreenContainer {
+.editFullScreenContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,11 +108,11 @@ textarea {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.messageContainer {
+.editMessageContainer {
     text-align: center;
 }
 
-.loading {
+.editLoading {
     color: var(--secondary-text);
     background-color: var(--table-row-alt);
     padding: 10px;
@@ -122,7 +124,7 @@ textarea {
     justify-content: center;
 }
 
-.error {
+.editError {
     color: var(--error);
     background-color: var(--error-background);
     padding: 10px;
@@ -131,7 +133,7 @@ textarea {
     text-align: center;
 }
 
-.loaderIcon {
+.editLoaderIcon {
     margin-right: 10px;
     animation: spin 2s linear infinite;
 }

@@ -52,12 +52,12 @@
     border-radius: 10px;
 }
 
-.errorContainer {
+.formErrorContainer {
     min-height: 20px;
     margin-bottom: 10px;
 }
 
-.error {
+.formError {
     color: var(--error);
     font-size: 14px;
     margin: 0;
