@@ -141,7 +141,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                         self.end_headers()
                         self.wfile.write(json.dumps([lista.to_dict() for lista in listas]).encode('utf-8'))
                     else:
-                        self.send_response(404)  # Not Found
+                        self.send_response(200)  # OK no hay listas
                         self.send_header('Content-type', 'application/json')
                         self.send_cors_headers()
                         self.end_headers()
