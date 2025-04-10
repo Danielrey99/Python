@@ -1,0 +1,137 @@
+.userContainer {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--background);
+    color: var(--text);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userChangeNameContainer, .userChangePasswordContainer {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--table-row-alt);
+    text-align: left;
+}
+
+.userButtonContainer {
+    text-align: center;
+}
+
+.userTitle {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.userFormGroup {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.userLabel {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.userInput {
+    width: calc(100% - 20px); /* Ajuste para márgenes y rellenos */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background-color: var(--table-row-alt); /* Añadido para consistencia */
+    color: var(--text); /* Añadido para consistencia */
+}
+
+.userSaveButton, .userDeleteButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: none;
+}
+
+.userSaveButton {
+    background-color: var(--secondary);
+}
+
+.userDeleteButton {
+    background-color: red;
+    margin-bottom: 20px;
+}
+
+.userSaveButton:hover {
+    background-color: var(--secondary-darker);
+    transform: scale(1.1);
+}
+
+.userDeleteButton:hover {
+    background-color: darkred;
+    transform: scale(1.1);
+}
+
+.userIconMargin {
+    margin-right: 10px;
+}
+
+.userFullScreenContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.userMessageContainer {
+    text-align: center;
+}
+
+.userLoading {
+    color: var(--secondary-text);
+    background-color: var(--table-row-alt);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userError {
+    color: var(--error);
+    background-color: var(--error-background);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.userValidationErrorContainer {
+    min-height: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.userValidationErrorMessage {
+    color: var(--error);
+    font-size: 14px;
+    margin: 0;
+    padding: 2px 0;
+    display: block;
+}
