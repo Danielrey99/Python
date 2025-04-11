@@ -26,6 +26,7 @@ function LoginPage() {
         try {
             const data = await loginUsuario(username, password);
             localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.usuario.id);
             localStorage.setItem('username', data.usuario.nombre_usuario);
             localStorage.setItem('rol', data.usuario.rol);
             window.location.href = '/todolist';

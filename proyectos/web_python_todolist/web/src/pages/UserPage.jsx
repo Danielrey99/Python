@@ -69,6 +69,7 @@ function UserPage() {
                 await eliminarUsuario();
                 localStorage.removeItem('token');
                 navigate('/login');
+                window.location.reload();
             } catch (err) {
                 setError(err.message);
                 setLoading(false);

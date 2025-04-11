@@ -1,0 +1,58 @@
+.adminContainer {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--background);
+    color: var(--text);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.adminTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.adminTable th, .adminTable td {
+    border: 1px solid var(--border);
+    padding: 8px;
+    text-align: center;
+}
+
+.adminTable th {
+    background-color: var(--table-header);
+    color: var(--table-header-text);
+}
+
+.adminTable tbody tr:nth-child(odd) {
+    background-color: var(--table-row-alt);
+}
+
+.cambiarRolButton {
+    background-color: var(--primary);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cambiarRolButton:hover {
+    background-color: var(--primary-darker);
+    transform: scale(1.1);
+}
+
+.cambiarRolButton svg {
+    margin: 0;
+}
