@@ -97,7 +97,7 @@
 
 .detailDeleteButton {
     background-color: red;
-    border: none; /* Añadido para eliminar el borde blanco */
+    border: none;
 }
 
 .detailBackButton:hover {

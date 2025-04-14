@@ -57,9 +57,9 @@
 }
 
 .todoMessageContainer {
-    display: inline-block; /* Cambiado a inline-block */
+    display: inline-block;
     text-align: center;
-    padding: 10px; /* Reducido a 10px como se solicitó */
+    padding: 10px;
     border-radius: 8px;
 }
 

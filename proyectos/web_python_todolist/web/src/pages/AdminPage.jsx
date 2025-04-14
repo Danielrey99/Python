@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { obtenerUsuarios, cambiarRolUsuario } from '../services/apiService';
 import styles from './AdminPage.module.css';
-import { User, ShieldUser } from 'lucide-react';
+import { User, ShieldUser, Loader2 } from 'lucide-react';
 
 function AdminPage() {
-    const [usuarios, setUsuarios] = useState([]);
+    const [usuarios, setUsuarios] = useState(null);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function cargarUsuarios() {
@@ -15,8 +14,6 @@ function AdminPage() {
                 setUsuarios(data);
             } catch (err) {
                 setError(err.message);
-            } finally {
-                setLoading(false);
             }
         }
         cargarUsuarios();
@@ -34,12 +31,27 @@ function AdminPage() {
         }
     };
 
-    if (loading) {
-        return <p>Cargando usuarios...</p>;
+    if (error) {
+        return (
+            <div className={styles.adminErrorContainer}>
+                <div className={styles.adminMessageContainer}>
+                    <div className={styles.adminError}>Error: {error}</div>
+                </div>
+            </div>
+        );
     }
 
-    if (error) {
-        return <p>Error: {error}</p>;
+    if (!usuarios) {
+        return (
+            <div className={styles.adminErrorContainer}>
+                <div className={styles.adminMessageContainer}>
+                    <div className={styles.adminLoading}>
+                        <Loader2 size={30} className={styles.adminLoaderIcon} />
+                        Cargando usuarios...
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

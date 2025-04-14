@@ -14,7 +14,6 @@ function Layout({ children }) {
 
     return (
         <div className={styles.layoutContainer}>
-            {/* Sidebar */}
             <aside className={`${styles.sidebar} ${menuOpen ? styles.open : ''}`}>
                 <nav className={styles.nav}>
                     <Link to="/todolist" onClick={() => setMenuOpen(false)}>📋 Listas</Link>
@@ -26,15 +25,12 @@ function Layout({ children }) {
                 </nav>
             </aside>
 
-            {/* Contenido principal */}
             <div className={`${styles.mainContent} ${menuOpen ? styles.shifted : ''}`}>
                 <header className={styles.header}>
-                    {/* Botón dentro del header, alineado a la izquierda */}
                     <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
                         {menuOpen ? <X size={30} /> : <Menu size={30} />}
                     </button>
 
-                    {/* Sección de usuario */}
                     <div className={styles.userInfo}>
                         <span className={styles.username}>{username}</span>
                         <button className={styles.logoutButton} onClick={handleLogout}>

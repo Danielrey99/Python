@@ -23,7 +23,7 @@ function ToDoListPage() {
 
     if (error) {
         return (
-            <div className={styles.todoErrorContainer}> {/* Nuevo contenedor para centrar */}
+            <div className={styles.todoErrorContainer}>
                 <div className={styles.todoMessageContainer}>
                     <div className={styles.todoError}>Error: {error}</div>
                 </div>
@@ -33,7 +33,7 @@ function ToDoListPage() {
 
     if (!listas) {
         return (
-            <div className={styles.todoErrorContainer}> {/* Nuevo contenedor para centrar */}
+            <div className={styles.todoErrorContainer}>
                 <div className={styles.todoMessageContainer}>
                     <div className={styles.todoLoading}>
                         <Loader2 size={30} className={styles.todoLoaderIcon} />

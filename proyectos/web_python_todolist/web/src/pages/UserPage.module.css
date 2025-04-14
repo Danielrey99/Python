@@ -41,13 +41,13 @@
 }
 
 .userInput {
-    width: calc(100% - 20px); /* Ajuste para márgenes y rellenos */
+    width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid var(--border);
     border-radius: 10px;
-    background-color: var(--table-row-alt); /* Añadido para consistencia */
-    color: var(--text); /* Añadido para consistencia */
+    background-color: var(--table-row-alt);
+    color: var(--text);
 }
 
 .userSaveButton, .userDeleteButton {
