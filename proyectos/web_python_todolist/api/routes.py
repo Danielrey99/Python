@@ -118,13 +118,15 @@ class RequestHandler(BaseHTTPRequestHandler):
                 elif self.path.startswith('/listas/id'):
                     # Obtener lista por ID
                     lista_id = int(self.path.split('/')[-1])
-                    lista = obtener_lista_por_id(lista_id, usuario_id)
+                    lista, es_compartida = obtener_lista_por_id(lista_id, usuario_id)
                     if lista:
+                        lista_dict = lista.to_dict()
+                        lista_dict['es_compartida'] = es_compartida
                         self.send_response(200)  # OK
                         self.send_header('Content-type', 'application/json')
                         self.send_cors_headers()
                         self.end_headers()
-                        self.wfile.write(json.dumps(lista.to_dict()).encode('utf-8'))
+                        self.wfile.write(json.dumps(lista_dict).encode('utf-8'))
                     else:
                         self.send_response(404)  # Not Found
                         self.send_header('Content-type', 'application/json')

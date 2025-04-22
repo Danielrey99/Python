@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { obtenerListaPorId, eliminarLista } from '../services/apiService';
 import styles from './ListDetailPage.module.css';
-import { Loader2, Edit, ArrowLeft, Trash2 } from 'lucide-react';
+import { Loader2, Edit, ArrowLeft, Trash2, Users } from 'lucide-react';
 
 function ListDetailPage() {
     const { id } = useParams();
@@ -64,15 +64,24 @@ function ListDetailPage() {
 
     return (
         <div className={styles.detailContainer}>
-            <h1 className={styles.detailTitle}>{lista.nombre_lista}</h1>
-            <p className={styles.detailDescription}>
-                {lista.descripcion ? lista.descripcion.split('\n').map((line, index) => (
-                    <React.Fragment key={index}>
-                        {line}
-                        {index < lista.descripcion.split('\n').length - 1 && <br />}
-                    </React.Fragment>
-                )) : 'Sin descripción'}
-            </p>
+            {lista && (
+                <div className={styles.titleContainer}>
+                    {lista.es_compartida && (
+                        <Users size={24} className={styles.sharedIcon} />
+                    )}
+                    <h1 className={styles.detailTitle}>{lista.nombre_lista}</h1>
+                </div>
+            )}
+            {lista && (
+                <p className={styles.detailDescription}>
+                    {lista.descripcion ? lista.descripcion.split('\n').map((line, index) => (
+                        <React.Fragment key={index}>
+                            {line}
+                            {index < lista.descripcion.split('\n').length - 1 && <br />}
+                        </React.Fragment>
+                    )) : 'Sin descripción'}
+                </p>
+            )}
 
             <div className={styles.detailActionsContainer}>
                 <Link to="/todolist" className={styles.detailBackButton}>
@@ -81,7 +90,7 @@ function ListDetailPage() {
                 <button onClick={handleDelete} className={styles.detailDeleteButton}>
                     <Trash2 size={24} />
                 </button>
-                <Link to={`/edit-list/${lista.id}`} className={styles.detailEditLink}>
+                <Link to={`/edit-list/${lista?.id}`} className={styles.detailEditLink}>
                     <Edit size={24} />
                 </Link>
             </div>

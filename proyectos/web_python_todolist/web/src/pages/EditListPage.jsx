@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { obtenerListaPorId, actualizarLista } from '../services/apiService';
 import styles from './EditListPage.module.css';
-import { Loader2, ArrowLeft, Save, Eye } from 'lucide-react';
+import { Loader2, ArrowLeft, Save, Eye, Users } from 'lucide-react';
 
 function EditListPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [nombreLista, setNombreLista] = useState('');
     const [descripcion, setDescripcion] = useState('');
+    const [esCompartida, setEsCompartida] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -18,6 +19,7 @@ function EditListPage() {
                 const data = await obtenerListaPorId(id);
                 setNombreLista(data.nombre_lista);
                 setDescripcion(data.descripcion || '');
+                setEsCompartida(data.es_compartida);
                 setLoading(false);
             } catch (err) {
                 setError(err.message);
@@ -65,7 +67,12 @@ function EditListPage() {
 
     return (
         <div className={styles.editContainer}>
-            <h1 className={styles.editTitle}>Editar Lista</h1>
+            <div className={styles.titleContainer}>
+                {esCompartida && (
+                    <Users size={24} className={styles.sharedIcon} />
+                )}
+                <h1 className={styles.editTitle}>Editar Lista</h1>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className={styles.editFormGroup}>
                     <label htmlFor="nombreLista" className={styles.editLabel}>Nombre:</label>

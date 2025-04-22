@@ -10,10 +10,28 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.titleContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
 .editTitle {
     font-size: 2em;
-    margin-bottom: 20px;
+    margin: 10px 40px;
     color: var(--primary);
+}
+
+.sharedIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    width: 24px;
+    height: 24px;
 }
 
 .editFormGroup {
@@ -65,7 +83,7 @@
     justify-content: center;
 }
 
-.editBackButton, 
+.editBackButton,
 .editViewLink {
     display: inline-flex;
     align-items: center;
@@ -86,7 +104,7 @@
     background-color: var(--primary);
 }
 
-.editBackButton:hover, 
+.editBackButton:hover,
 .editViewLink:hover {
     background-color: var(--primary-darker);
     transform: scale(1.1);

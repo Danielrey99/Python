@@ -264,20 +264,27 @@ def obtener_listas_por_usuario(usuario_id):
                 conn.close()
 
 def obtener_lista_por_id(lista_id, usuario_id):
-    """Obtiene una lista por su ID desde la base de datos, verificando permisos."""
+    """Obtiene una lista por su ID desde la base de datos, verificando permisos e indicando si está compartida."""
     conn = create_connection()
     if conn:
         try:
             cur = conn.cursor()
             cur.execute("""
-                SELECT listas.id, listas.nombre_lista, listas.descripcion, listas.fecha_creacion
-                FROM listas
-                JOIN usuario_lista ON listas.id = usuario_lista.lista_id
-                WHERE listas.id = %s AND usuario_lista.usuario_id = %s
-            """, (lista_id, usuario_id))
-            lista = cur.fetchone()
-            if lista:
-                return Lista(*lista)
+                SELECT l.id, l.nombre_lista, l.descripcion, l.fecha_creacion,
+                    EXISTS (
+                        SELECT 1
+                        FROM usuario_lista ul
+                        WHERE ul.lista_id = l.id AND ul.usuario_id != %s
+                    ) AS es_compartida
+                FROM listas l
+                JOIN usuario_lista ul2 ON l.id = ul2.lista_id
+                WHERE l.id = %s AND ul2.usuario_id = %s
+            """, (usuario_id, lista_id, usuario_id))
+            lista_data = cur.fetchone()
+            if lista_data:
+                lista = Lista(id=lista_data[0], nombre_lista=lista_data[1], descripcion=lista_data[2], fecha_creacion=lista_data[3])
+                es_compartida = lista_data[4]
+                return lista, es_compartida
             else:
                 return None
         except psycopg2.Error as e:
