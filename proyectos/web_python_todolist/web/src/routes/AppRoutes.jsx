@@ -9,6 +9,7 @@ import EditListPage from '../pages/EditListPage';
 import UserPage from '../pages/UserPage';
 import AdminPage from '../pages/AdminPage';
 import ListDetailPage from '../pages/ListDetailPage';
+import SharedListsPage from '../pages/SharedListsPage';
 
 function AppRoutes() {
     const isLoggedIn = !!localStorage.getItem('token');
@@ -19,6 +20,7 @@ function AppRoutes() {
                 <Route path="/login" element={isLoggedIn ? <Navigate replace to="/todolist" /> : <LoginPage />} />
                 <Route path="/register" element={isLoggedIn ? <Navigate replace to="/todolist" /> : <RegisterPage />} />
                 <Route path="/todolist" element={isLoggedIn ? <Layout><ToDoListPage /></Layout> : <Navigate replace to="/login" />} />
+                <Route path="/shared-lists" element={isLoggedIn ? <Layout><SharedListsPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/create-list" element={isLoggedIn ? <Layout><CreateListPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/edit-list/:id" element={isLoggedIn ? <Layout><EditListPage /></Layout> : <Navigate replace to="/login" />} />
                 <Route path="/user" element={isLoggedIn ? <Layout><UserPage /></Layout> : <Navigate replace to="/login" />} />

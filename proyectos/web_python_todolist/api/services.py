@@ -243,11 +243,16 @@ def obtener_listas_por_usuario(usuario_id):
         try:
             cur = conn.cursor()
             cur.execute("""
-                SELECT listas.id, listas.nombre_lista, listas.fecha_creacion
-                FROM listas
-                JOIN usuario_lista ON listas.id = usuario_lista.lista_id
-                WHERE usuario_lista.usuario_id = %s
-            """, (usuario_id,))
+                SELECT l.id, l.nombre_lista, l.fecha_creacion
+                FROM listas l
+                JOIN usuario_lista ul ON l.id = ul.lista_id
+                WHERE ul.usuario_id = %s
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM usuario_lista ul2
+                    WHERE ul2.lista_id = l.id AND ul2.usuario_id != %s
+                )
+            """, (usuario_id, usuario_id))
             listas = [Lista(id=lista[0], nombre_lista=lista[1], descripcion=None, fecha_creacion=lista[2]) for lista in cur.fetchall()]
             return listas
         except psycopg2.Error as e:

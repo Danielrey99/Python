@@ -17,6 +17,7 @@ function Layout({ children }) {
             <aside className={`${styles.sidebar} ${menuOpen ? styles.open : ''}`}>
                 <nav className={styles.nav}>
                     <Link to="/todolist" onClick={() => setMenuOpen(false)}>📋 Listas</Link>
+                    <Link to="/shared-lists" onClick={() => setMenuOpen(false)}>👥 Listas Compartidas</Link>
                     <Link to="/create-list" onClick={() => setMenuOpen(false)}>➕ Crear Lista</Link>
                     <Link to="/user" onClick={() => setMenuOpen(false)}>👤 Mi Perfil</Link>
                     {localStorage.getItem('rol') === 'admin' && (
